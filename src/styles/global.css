@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+html { height: auto; }
+body { min-height: 100vh; height: auto; }
+
+.knap {
+  background: #78BA53;
+  color: white;
+  font-weight: 600;
+  padding: 0.85rem 2rem;
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.15s;
+}
+
+.knap:hover {
+  background: #709647;
+}

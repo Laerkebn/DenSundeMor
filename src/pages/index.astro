@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forside</title>
+  </head>
+  <body class="bg-[#FFF9F0] flex flex-col items-center pt-[8vh]">
+    <div class="relative w-full h-[82vh] overflow-hidden">
+      <video
+        class="absolute inset-0 w-full h-full object-cover"
+        src="/videoer/UngMorFIlmbedre.mp4"
+        autoplay
+        muted
+        loop
+        playsinline
+      ></video>
+      <div class="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
+        <div class="text-center px-[5%]">
+          <p class="text-white font-bold mb-3 whitespace-nowrap" style="font-size: clamp(1.5rem, 5vw, 3rem)">Mor til mor</p>
+          <p class="text-white font-bold mb-6" style="font-size: clamp(0.85rem, 2vw, 1.25rem)">Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.</p>
+          <button id="scroll-btn" class="knap">
+  Bliv en del af fællesskabet
+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Spørgsmålskasse -->
+    <div id="spoergsmaal" style="width:80%; max-width:32rem; margin:5rem auto; background:white; border-radius:1rem; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:2rem">
+      <div id="spoergsmaal-indhold"></div>
+    </div>
+
+    <!--Denne Script er lavet af Claude -->
+    <script is:inline>
+      const spoergsmaal = [
+        { tekst: "Hvor gammel er du?", svar: ["Under 18", "18-20", "21-25"] },
+        { tekst: "Hvor bor du?", svar: ["København", "Aarhus", "Odense", "Et andet sted"] },
+        { tekst: "Hvad leder du efter?", svar: ["Venskaber", "Råd og støtte", "Events og aktiviteter"] }
+      ];
+
+      let nuvaerende = 0;
+
+      function visSpoergsmaal(index) {
+        const s = spoergsmaal[index];
+        const indhold = document.getElementById('spoergsmaal-indhold');
+        indhold.innerHTML = `
+          <p style="font-size:0.875rem; color:#9ca3af; margin-bottom:0.5rem">${index + 1} / ${spoergsmaal.length}</p>
+          <p style="font-size:1.25rem; font-weight:700; color:#1f2937; margin-bottom:1.5rem">${s.tekst}</p>
+          <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:2rem">
+            ${s.svar.map(svar => `
+              <button
+                onclick="vaelgSvar(this)"
+                style="width:100%; text-align:left; padding:0.75rem 1rem; border-radius:0.5rem; border:1px solid #e5e7eb; color:#374151; background:white; cursor:pointer; font-size:1rem"
+                onmouseover="if(!this.dataset.valgt) this.style.borderColor='#78BA53'"
+                onmouseout="if(!this.dataset.valgt) this.style.borderColor='#e5e7eb'"
+              >${svar}</button>
+            `).join('')}
+          </div>
+       <button
+  onclick="naeste()"
+  class="knap"
+  style="width:100%"
+>${index < spoergsmaal.length - 1 ? 'Næste' : 'Færdig'}</button>
+        `;
+      }
+
+      function vaelgSvar(knap) {
+        document.querySelectorAll('#spoergsmaal-indhold button:not(:last-child)').forEach(k => {
+          k.style.borderColor = '#e5e7eb';
+          k.style.color = '#374151';
+          k.style.background = 'white';
+          delete k.dataset.valgt;
+        });
+        knap.style.borderColor = '#78BA53';
+        knap.style.color = '#78BA53';
+        knap.style.background = '#f0fdf4';
+        knap.dataset.valgt = 'true';
+      }
+
+      function naeste() {
+        if (nuvaerende < spoergsmaal.length - 1) {
+          nuvaerende++;
+          visSpoergsmaal(nuvaerende);
+        } else {
+          document.getElementById('spoergsmaal-indhold').innerHTML = `
+            <p style="font-size:1.25rem; font-weight:700; color:#1f2937; margin-bottom:0.5rem">Tak!</p>
+            <p style="color:#6b7280">Vi finder de bedste fællesskaber til dig.</p>
+          `;
+        }
+      }
+
+      document.getElementById('scroll-btn').addEventListener('click', () => {
+        document.getElementById('spoergsmaal').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      visSpoergsmaal(0);
+    </script>
+    <!--Overstående Script er lavet af Claude-->
+
+  </body>
+</html>
