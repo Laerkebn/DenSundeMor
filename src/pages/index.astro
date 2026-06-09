@@ -1,14 +1,10 @@
 ---
+import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 ---
 
-<html lang="da">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forside</title>
-  </head>
-  <body class="bg-[#FFF9F0] flex flex-col items-center pt-[8vh]">
+<Layout>
+  <div class="bg-[#FFF9F0] flex flex-col items-center pt-[8vh]">
     <div class="relative w-full h-[82vh] overflow-hidden">
       <video
         class="absolute inset-0 w-full h-full object-cover"
@@ -21,10 +17,10 @@ import '../styles/global.css';
       <div class="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
         <div class="text-center px-[5%]">
           <p class="text-white font-bold mb-3 whitespace-nowrap" style="font-size: clamp(1.5rem, 5vw, 3rem)">Mor til mor</p>
-          <p class="text-white font-bold mb-6" style="font-size: clamp(0.85rem, 2vw, 1.25rem)">Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.</p>
-          <button id="scroll-btn" class="knap">
-  Bliv en del af fællesskabet
-</button>
+      <p class="text-white font-bold mb-6" style="font-size: clamp(0.85rem, 2vw, 1.25rem); width:80%; margin-left:auto; margin-right:auto;">Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.</p>
+	  <button id="scroll-btn" class="knap">
+            Bliv en del af fællesskabet
+          </button>
         </div>
       </div>
     </div>
@@ -60,11 +56,9 @@ import '../styles/global.css';
               >${svar}</button>
             `).join('')}
           </div>
-       <button
-  onclick="naeste()"
-  class="knap"
-  style="width:100%"
->${index < spoergsmaal.length - 1 ? 'Næste' : 'Færdig'}</button>
+          <button onclick="naeste()" class="knap" style="width:100%">
+            ${index < spoergsmaal.length - 1 ? 'Næste' : 'Færdig'}
+          </button>
         `;
       }
 
@@ -100,6 +94,5 @@ import '../styles/global.css';
       visSpoergsmaal(0);
     </script>
     <!--Overstående Script er lavet af Claude-->
-
-  </body>
-</html>
+  </div>
+</Layout>
