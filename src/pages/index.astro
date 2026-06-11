@@ -4,7 +4,9 @@ import '../styles/global.css';
 ---
 
 <Layout>
-  <div class="bg-[#FFF9F0] flex flex-col items-center pt-[8vh]">
+  <div class="bg-[#FFFFFF] flex flex-col items-center pt-[8vh]">
+
+    <!-- Videoafsnit med titel og knap ovenpå -->
     <div class="relative w-full h-[82vh] overflow-hidden">
       <video
         class="absolute inset-0 w-full h-full object-cover"
@@ -14,84 +16,218 @@ import '../styles/global.css';
         loop
         playsinline
       ></video>
+
+      <!-- Tekst og knap nederst på videoen -->
       <div class="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
         <div class="text-center px-[5%]">
-          <p class="text-white font-bold mb-3 whitespace-nowrap" style="font-size: clamp(1.5rem, 5vw, 3rem)">Mor til mor</p>
-      <p class="text-white font-bold mb-6" style="font-size: clamp(0.85rem, 2vw, 1.25rem); width:80%; margin-left:auto; margin-right:auto;">Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.</p>
-	  <button id="scroll-btn" class="knap">
+          <p class="text-white font-bold mb-3 whitespace-nowrap"
+             style="font-size: clamp(1.5rem, 5vw, 3rem)">
+            Mor til mor
+          </p>
+          <p class="text-white font-bold mb-6"
+             style="font-size: clamp(0.85rem, 2vw, 1.25rem); width:80%; margin-left:auto; margin-right:auto;">
+            Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.
+          </p>
+          <button id="scroll-knap" class="knap">
             Bliv en del af fællesskabet
           </button>
         </div>
       </div>
     </div>
 
-    <!-- Spørgsmålskasse -->
-    <div id="spoergsmaal" style="width:80%; max-width:32rem; margin:5rem auto; background:white; border-radius:1rem; box-shadow:0 4px 20px rgba(0,0,0,0.08); padding:2rem">
-      <div id="spoergsmaal-indhold"></div>
-    </div>
+    <!-- Spørgsmålskassen der vises når man scroller ned -->
+ <!-- Lilla baggrund bag spørgsmålskassen -->
+<div id="scroll-maal" class="bg-[#ccbddd] w-full flex justify-center" style="scroll-margin-top: 8vh">
+  <div id="spoergsmaal" class="spoergsmaal-kasse">
+    <div id="spoergsmaal-indhold"></div>
+  </div>
+</div>
+
+<!-- Hvid tekstsektion under spørgsmålskassen -->
+<div class="w-full bg-white px-[10%] py-16">
+  <div class="flex items-end mb-6" style="gap: 1rem; flex-wrap: nowrap;">
+    <h2 class="font-bold" style="font-size: clamp(0.9rem, 3.5vw, 2.5rem); text-transform: uppercase;">
+      GRATIS TILBUD TIL UNGE MØDRE
+    </h2>
+<img src="/Billeder/HeadspaceHjerte.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
+  </div>
+  <p class="mb-6" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #1f2937;">
+    Hos Headspace tilbyder vi gratis fællesskaber og events for unge mødre mellem 12 og 25 år i hele Danmark. Her kan du møde andre i samme situation, dele erfaringer og få et pusterum i hverdagen sammen med mennesker, der forstår, hvordan livet som ung mor kan være.
+  </p>
+  <p class="mb-8" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #1f2937;">
+    Vores aktiviteter spænder fra hyggelige caféaftener og kreative workshops til sociale arrangementer og fælles oplevelser. Det handler ikke om at være den perfekte mor – det handler om at finde støtte, skabe nye relationer og opleve, at du ikke står alene. Alle er velkomne, og det er altid gratis at deltage.
+  </p>
+  <button class="knap knap-omvendt">Find et fællesskab nær dig &rsaquo;</button>
+</div>
 
     <!--Denne Script er lavet af Claude -->
     <script is:inline>
-      const spoergsmaal = [
-        { tekst: "Hvor gammel er du?", svar: ["Under 18", "18-20", "21-25"] },
-        { tekst: "Hvor bor du?", svar: ["København", "Aarhus", "Odense", "Et andet sted"] },
-        { tekst: "Hvad leder du efter?", svar: ["Venskaber", "Råd og støtte", "Events og aktiviteter"] }
-      ];
+// ── Alle spørgsmål og deres indhold ──
+// Hvert spørgsmål har en "type" der bestemmer hvordan det vises:
+// - "intro"  → velkomsttekst med en Start-knap
+// - "felter" → en eller flere tekstfelter man kan skrive i
+// - "multi"  → knapper man kan klikke på for at vælge svar
+const alleSpoergsmaal = [
+  {
+    type: "intro",
+    tekst: "Kære mor,\n\nDu er ikke alene. Mange unge mødre oplever de samme tanker, følelser og udfordringer som dig.\n\nSvar på spørgsmålene nedenfor, og se, hvordan andre unge mødre har det. Måske finder du nogen, du kan spejle dig i – og opdager, at der er et fællesskab af stærke mødre, som forstår, hvad du går igennem."
+  },
+  {
+    type: "felter",
+    visAnonymKnap: true,
+    felter: [
+      { label: "Hvad vil du gerne kaldes?", placeholder: "Fortrukket kaldenavn..." },
+      { label: "Hvor gammel er du?",         placeholder: "Alder..." }
+    ]
+  },
+  {
+    type: "felter",
+    felter: [
+      { label: "Hvor gammelt er dit barn?",         placeholder: "Alder..." },
+      { label: "Hvilken by bor du i?",              placeholder: "Vælg by" },
+      { label: "Hvad er du mest stolt af som mor?", placeholder: "skriv her...", storTekstboks: true }
+    ]
+  },
+  {
+    type: "multi",
+    spoergsmaal: "Hvad håber du at få ud af fællesskabet? (Du kan vælge flere svar)",
+    valgmuligheder: ["Venskaber", "Råd og støtte", "Events og aktiviteter"],
+    fritekstLabel: "Andet? skriv dit svar her:",
+    fritekstPlaceholder: "skriv her..."
+  },
+  {
+    type: "felter",
+    felter: [
+      { label: "Hvad er det bedste ved at være ung mor?",               placeholder: "skriv her..." },
+      { label: "Hvad er det sværeste ved at være ung mor?",             placeholder: "skriv her..." },
+      { label: "Hvad gør du for dig selv?",                             placeholder: "skriv her..." },
+      { label: "Er der noget, du gerne vil fortælle om din situation?", placeholder: "skriv her...", storTekstboks: true }
+    ]
+  }
+];
 
-      let nuvaerende = 0;
+// Holder styr på hvilket spørgsmål vi er på
+let aktivtSpoergsmaalIndex = 0;
 
-      function visSpoergsmaal(index) {
-        const s = spoergsmaal[index];
-        const indhold = document.getElementById('spoergsmaal-indhold');
-        indhold.innerHTML = `
-          <p style="font-size:0.875rem; color:#9ca3af; margin-bottom:0.5rem">${index + 1} / ${spoergsmaal.length}</p>
-          <p style="font-size:1.25rem; font-weight:700; color:#1f2937; margin-bottom:1.5rem">${s.tekst}</p>
-          <div style="display:flex; flex-direction:column; gap:0.75rem; margin-bottom:2rem">
-            ${s.svar.map(svar => `
-              <button
-                onclick="vaelgSvar(this)"
-                style="width:100%; text-align:left; padding:0.75rem 1rem; border-radius:0.5rem; border:1px solid #e5e7eb; color:#374151; background:white; cursor:pointer; font-size:1rem"
-                onmouseover="if(!this.dataset.valgt) this.style.borderColor='#78BA53'"
-                onmouseout="if(!this.dataset.valgt) this.style.borderColor='#e5e7eb'"
-              >${svar}</button>
-            `).join('')}
-          </div>
-          <button onclick="naeste()" class="knap" style="width:100%">
-            ${index < spoergsmaal.length - 1 ? 'Næste' : 'Færdig'}
-          </button>
-        `;
-      }
+// ── Laver HTML for ét inputfelt (lille eller stort) ──
+function lavInputFelt(felt) {
+  const labelHTML = `<p class="felt-label">${felt.label}</p>`;
+  if (felt.storTekstboks) {
+    return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`;
+  }
+  return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;
+}
 
-      function vaelgSvar(knap) {
-        document.querySelectorAll('#spoergsmaal-indhold button:not(:last-child)').forEach(k => {
-          k.style.borderColor = '#e5e7eb';
-          k.style.color = '#374151';
-          k.style.background = 'white';
-          delete k.dataset.valgt;
-        });
-        knap.style.borderColor = '#78BA53';
-        knap.style.color = '#78BA53';
-        knap.style.background = '#f0fdf4';
-        knap.dataset.valgt = 'true';
-      }
+// ── Viser intro-siden med velkomsttekst og Start-knap ──
+function visIntro(spoergsmaal) {
+  return `
+    <img src="/Billeder/HÅND.svg" alt="" class="intro-billede" />
+    <p class="intro-tekst">${spoergsmaal.tekst}</p>
+    <button onclick="naeste()" class="knap knap-fuld-bredde">Start</button>
+  `;
+}
 
-      function naeste() {
-        if (nuvaerende < spoergsmaal.length - 1) {
-          nuvaerende++;
-          visSpoergsmaal(nuvaerende);
-        } else {
-          document.getElementById('spoergsmaal-indhold').innerHTML = `
-            <p style="font-size:1.25rem; font-weight:700; color:#1f2937; margin-bottom:0.5rem">Tak!</p>
-            <p style="color:#6b7280">Vi finder de bedste fællesskaber til dig.</p>
-          `;
-        }
-      }
+// ── Viser en side med tekstfelter man kan skrive i ──
+function visFelter(spoergsmaal) {
+  let felterHTML = '';
+  spoergsmaal.felter.forEach(felt => {
+    felterHTML += lavInputFelt(felt);
+  });
 
-      document.getElementById('scroll-btn').addEventListener('click', () => {
-        document.getElementById('spoergsmaal').scrollIntoView({ behavior: 'smooth' });
-      });
+  if (spoergsmaal.visAnonymKnap) {
+    return `
+      ${felterHTML}
+      <div class="knap-række">
+        <button onclick="naeste()" class="knap knap-omvendt knap-fuld-bredde">Svar anonymt</button>
+        <button onclick="naeste()" class="knap knap-fuld-bredde">Næste</button>
+      </div>
+    `;
+  }
 
-      visSpoergsmaal(0);
+  return `
+    ${felterHTML}
+    <button onclick="naeste()" class="knap knap-fuld-bredde">Næste</button>
+  `;
+}
+
+// ── Viser en side med klikbare svarmuligheder ──
+function visMulti(spoergsmaal, erSidsteSpoergsmaal) {
+  let svarHTML = '';
+  spoergsmaal.valgmuligheder.forEach(valgmulighed => {
+    svarHTML += `<button onclick="toggleSvar(this)" class="svar-knap">${valgmulighed}</button>`;
+  });
+
+  const naestKnapTekst = erSidsteSpoergsmaal ? 'Færdig' : 'Næste';
+
+  return `
+    <p class="spoergsmaal-tekst">${spoergsmaal.spoergsmaal}</p>
+    <div class="svar-liste">${svarHTML}</div>
+    <p class="felt-label">${spoergsmaal.fritekstLabel}</p>
+    <textarea class="felt-textarea" placeholder="${spoergsmaal.fritekstPlaceholder}"></textarea>
+    <button onclick="naeste()" class="knap knap-fuld-bredde">${naestKnapTekst}</button>
+  `;
+}
+
+// ── Viser det rigtige spørgsmål baseret på index ──
+function visSpoergsmaal(index) {
+  const aktivtSpoergsmaal = alleSpoergsmaal[index];
+  const kasseBeholder = document.getElementById('spoergsmaal-indhold');
+  const erSidsteSpoergsmaal = index === alleSpoergsmaal.length - 1;
+
+  let html = '';
+  if (index > 0) {
+    html += `<p class="spoergsmaal-taeller">Spørgsmål ${index} / ${alleSpoergsmaal.length - 1}</p>`;
+  }
+
+  if (aktivtSpoergsmaal.type === 'intro') {
+    html += visIntro(aktivtSpoergsmaal);
+  } else if (aktivtSpoergsmaal.type === 'felter') {
+    html += visFelter(aktivtSpoergsmaal);
+  } else if (aktivtSpoergsmaal.type === 'multi') {
+    html += visMulti(aktivtSpoergsmaal, erSidsteSpoergsmaal);
+  }
+
+  kasseBeholder.innerHTML = html;
+}
+
+// ── Skifter farve på en svarknap når man klikker på den ──
+function toggleSvar(klikketKnap) {
+  if (klikketKnap.dataset.valgt) {
+    klikketKnap.classList.remove('svar-knap-valgt');
+    delete klikketKnap.dataset.valgt;
+  } else {
+    klikketKnap.classList.add('svar-knap-valgt');
+    klikketKnap.dataset.valgt = 'true';
+  }
+}
+
+// ── Går til næste spørgsmål, eller viser tak-besked til sidst ──
+function naeste() {
+  const erSidsteSpoergsmaal = aktivtSpoergsmaalIndex === alleSpoergsmaal.length - 1;
+
+if (erSidsteSpoergsmaal) {
+  document.getElementById('spoergsmaal-indhold').innerHTML = `
+    <p class="tak-tekst">Tak for din deltagelse!</p>
+    <p class="mb-6" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #1f2937;">
+      Tak fordi du delte dine oplevelser. Dit svar er med til at skabe et større indblik i, hvordan unge mødre har det rundt omkring i Danmark. 
+      I datavisualiseringen kan du anonymt se, hvordan andre unge mødre har svaret – og måske finde noget, du kan spejle dig i.
+    </p>
+    <button onclick="window.location.href='/datavisualisering'" class="knap knap-fuld-bredde">Se datavisualiseringen</button>
+  `;
+} else {
+  aktivtSpoergsmaalIndex++;
+  visSpoergsmaal(aktivtSpoergsmaalIndex);
+}
+}
+
+// ── Når man klikker på "Bliv en del af fællesskabet" scroller siden ned til spørgsmålene ──
+document.getElementById('scroll-knap').addEventListener('click', () => {
+  document.getElementById('scroll-maal').scrollIntoView({ behavior: 'smooth' });
+});
+
+// Start med at vise det første spørgsmål (introen)
+visSpoergsmaal(0);
+
     </script>
     <!--Overstående Script er lavet af Claude-->
   </div>
