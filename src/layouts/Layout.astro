@@ -5,15 +5,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Nunito bruges til headspace-logoet i headeren -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
     <slot name="head" />
     <title>Headspace</title>
   </head>
   <body>
+    <!-- Fast header der følger med når man scroller -->
     <header class="side-header">
-      <p class="header-logo">headspace</p>
+      <a href="/" style="text-decoration: none;">
+  <p class="header-logo">headspace</p>
+</a>
       <img src="/Billeder/Burger.svg" alt="Menu" style="height:1.5rem; cursor:pointer;" />
     </header>
+
+    <!-- Sidens indhold indsættes her fra hver enkelt side -->
     <slot />
   </body>
 </html>

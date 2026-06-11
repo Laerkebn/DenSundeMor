@@ -1,30 +1,36 @@
 @import "tailwindcss";
 
-/* ── Skrifttype ── */
+/* ════════════════════════════════════════
+   SKRIFTTYPE
+   ════════════════════════════════════════ */
 @font-face {
-  font-family: 'Agrandir';
-  src: url('/font/Agrandir-Regular.otf') format('opentype');
+  font-family: "Agrandir";
+  src: url("/font/Agrandir-Regular.otf") format("opentype");
   font-weight: 400;
 }
 
 @font-face {
-  font-family: 'Agrandir';
-  src: url('/font/Agrandir-TextBold.otf') format('opentype');
+  font-family: "Agrandir";
+  src: url("/font/Agrandir-TextBold.otf") format("opentype");
   font-weight: 700;
 }
 
-/* ── Grundlæggende sideopsætning ── */
+/* ════════════════════════════════════════
+   GRUNDLÆGGENDE SIDEOPSÆTNING
+   ════════════════════════════════════════ */
 html {
   height: auto;
 }
 
 body {
-  font-family: 'Agrandir', sans-serif;
+  font-family: "Agrandir", sans-serif;
   min-height: 100vh;
   height: auto;
 }
 
-/* ── Header øverst på siden ── */
+/* ════════════════════════════════════════
+   HEADER
+   ════════════════════════════════════════ */
 .side-header {
   position: fixed;
   top: 0;
@@ -38,17 +44,23 @@ body {
   padding: 0 5%;
   z-index: 50;
   box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  right: 0;
 }
 
+/* ── Headspace-logoet i headeren ── */
 .header-logo {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 700;
-  font-size: 1.5rem;
-  color: #78BA53;
+  font-size: 2rem;
+  color: #78ba53;
   margin: 0;
 }
 
-/* ── Video ── */
+/* ════════════════════════════════════════
+   VIDEO
+   ════════════════════════════════════════ */
 .video-titel {
   font-size: clamp(1.5rem, 5vw, 3rem);
 }
@@ -60,12 +72,16 @@ body {
   margin-right: auto;
 }
 
-/* ── Knapper ── */
+/* ════════════════════════════════════════
+   KNAPPER
+   ════════════════════════════════════════ */
+
+/* ── Standard grøn knap ── */
 .knap {
-  background: #78BA53;
+  background: #78ba53;
   color: white;
   font-weight: 600;
-  padding: 0.50rem 1.5rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 9999px;
   border: none;
   cursor: pointer;
@@ -77,16 +93,7 @@ body {
   background: #698534;
 }
 
-/* ── LILLAKnapper ── */
-.knap-omvendt {
-  background: #ccbddd;
-  color: white;
-}
-
-.knap-omvendt:hover {
-  background: #a89fb7;
-}
-
+/* ── Knap der fylder hele bredden og er centreret ── */
 .knap-fuld-bredde {
   width: 100%;
   max-width: 24rem;
@@ -96,6 +103,7 @@ body {
   margin-right: auto;
 }
 
+/* ── Kolonne af knapper (bruges til anonym/næste) ── */
 .knap-række {
   display: flex;
   flex-direction: column;
@@ -103,7 +111,14 @@ body {
   margin-top: 0.5rem;
 }
 
-/* ── Spørgsmålskasse ── */
+/* ── Lysere grøn knap til inaktive kategoriknapper ── */
+.knap-inaktiv {
+  background: #a8d88a;
+}
+
+/* ════════════════════════════════════════
+   SPØRGSMÅLSKASSE
+   ════════════════════════════════════════ */
 .spoergsmaal-kasse {
   width: 80%;
   max-width: 40rem;
@@ -115,12 +130,18 @@ body {
   box-sizing: border-box;
 }
 
+#scroll-maal {
+  scroll-margin-top: 8vh;
+}
+
+/* ── Tæller øverst i kassen fx "Spørgsmål 1 / 4" ── */
 .spoergsmaal-taeller {
   font-size: 0.875rem;
   color: #9ca3af;
   margin-bottom: 1rem;
 }
 
+/* ── Spørgsmålstekst i multi-valg ── */
 .spoergsmaal-tekst {
   font-size: 1.1rem;
   font-weight: 700;
@@ -128,6 +149,7 @@ body {
   margin-bottom: 1rem;
 }
 
+/* ── Velkomsttekst på introskærmen ── */
 .intro-tekst {
   font-size: 1rem;
   color: #1f2937;
@@ -136,6 +158,7 @@ body {
   margin-bottom: 2rem;
 }
 
+/* ── Tak-tekst når man har svaret på alle spørgsmål ── */
 .tak-tekst {
   font-size: 1.25rem;
   font-weight: 700;
@@ -143,7 +166,21 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* ── Inputfelter ── */
+/* ── Billede øverst i introen ── */
+.intro-billede {
+  width: 25%;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ════════════════════════════════════════
+   INPUTFELTER
+   ════════════════════════════════════════ */
+
+/* ── Label over hvert felt ── */
 .felt-label {
   font-size: 1rem;
   font-weight: 600;
@@ -151,6 +188,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
+/* ── Enkeltlinjet tekstfelt ── */
 .felt-input {
   width: 100%;
   padding: 0.75rem;
@@ -161,6 +199,7 @@ body {
   box-sizing: border-box;
 }
 
+/* ── Flerlinjet tekstfelt til lange svar ── */
 .felt-textarea {
   width: 100%;
   padding: 0.75rem;
@@ -173,7 +212,11 @@ body {
   box-sizing: border-box;
 }
 
-/* ── Svarmuligheder ── */
+/* ════════════════════════════════════════
+   SVARMULIGHEDER
+   ════════════════════════════════════════ */
+
+/* ── Liste der holder svarknapperne ── */
 .svar-liste {
   display: flex;
   flex-direction: column;
@@ -181,6 +224,7 @@ body {
   margin-bottom: 1.25rem;
 }
 
+/* ── Enkelt svarknap ── */
 .svar-knap {
   width: 100%;
   text-align: left;
@@ -193,22 +237,96 @@ body {
   font-size: 1rem;
 }
 
+/* ── Svarknap når den er valgt (grøn kant og baggrund) ── */
 .svar-knap-valgt {
-  border-color: #78BA53;
-  color: #78BA53;
+  border-color: #78ba53;
+  color: #78ba53;
   background: #f0fdf4;
 }
 
-#scroll-maal {
-  scroll-margin-top: 8vh;
+/* ════════════════════════════════════════
+   DATAVISUALISERING.astro
+   ════════════════════════════════════════ */
+/* ── Række af kategoriknapper øverst ── */
+.kategori-række {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  justify-content: center;
 }
 
-/* ── Billede øverst i introen - Hænder ── */
-.intro-billede {
-  width: 25%;
-  border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+/* ── Hvid boks der indeholder visualiseringen ── */
+.visualisering-kasse {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-height: 400px;
+}
+
+/* ── Beskrivelsestekst øverst i visualiseringsboksen ── */
+.visualisering-beskrivelse {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: #1f2937;
+  margin-bottom: 1rem;
+}
+
+/* ════════════════════════════════════════
+   SUTTEVISUALISERING
+   Sutterne falder ned fra toppen og lander
+   i bunden af boksen. position: relative på
+   containeren gør at absolute-positionerede
+   sutter placeres relativt til den.
+   ════════════════════════════════════════ */
+
+/* ── Containeren der holder alle sutterne ── */
+.sut-container {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+}
+
+/* ── En enkelt sut ── */
+.sut {
+  position: absolute;
+  width: 3rem;
+  animation: faldNed linear forwards;
+}
+
+/* ── Animationen der får en sut til at falde ned ── */
+@keyframes faldNed {
+  from {
+    top: -4rem;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    top: var(--lande-position);
+    opacity: 1;
+  }
+}
+
+/* ── Kommentarkort ── */
+.kommentar-kort {
+  background: #f5f0fa;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+/* ── Navn og alder øverst på kortet ── */
+.kommentar-navn {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #78ba53;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Selve kommentarteksten ── */
+.kommentar-tekst {
+  font-size: 0.95rem;
+  color: #1f2937;
+  line-height: 1.6;
 }
