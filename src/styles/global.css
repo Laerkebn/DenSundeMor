@@ -41,12 +41,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 5%;
+  padding: 0 2rem;
   z-index: 50;
   box-sizing: border-box;
-  max-width: 1200px;
-  margin: 0 auto;
-  right: 0;
 }
 
 /* ── Headspace-logoet i headeren ── */
@@ -145,14 +142,14 @@ body {
 .spoergsmaal-tekst {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #353635;
   margin-bottom: 1rem;
 }
 
 /* ── Velkomsttekst på introskærmen ── */
 .intro-tekst {
   font-size: 1rem;
-  color: #1f2937;
+  color: #353635;
   line-height: 1.7;
   white-space: pre-line;
   margin-bottom: 2rem;
@@ -162,7 +159,7 @@ body {
 .tak-tekst {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #1f2937;
+  color: #353635;
   margin-bottom: 0.5rem;
 }
 
@@ -184,7 +181,7 @@ body {
 .felt-label {
   font-size: 1rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #353635;
   margin-bottom: 0.5rem;
 }
 
@@ -231,7 +228,7 @@ body {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
-  color: #374151;
+  color: #353635;
   background: white;
   cursor: pointer;
   font-size: 1rem;
@@ -267,7 +264,7 @@ body {
 /* ── Beskrivelsestekst øverst i visualiseringsboksen ── */
 .visualisering-beskrivelse {
   font-size: clamp(0.85rem, 2vw, 1rem);
-  color: #1f2937;
+  color: #353635;
   margin-bottom: 1rem;
 }
 
@@ -327,6 +324,17 @@ body {
 /* ── Selve kommentarteksten ── */
 .kommentar-tekst {
   font-size: 0.95rem;
-  color: #1f2937;
+  color: #353635;
   line-height: 1.6;
+}
+/* ════════════════════════════════════════
+   Faelleskab .astro
+   ════════════════════════════════════════ */
+/* ── Lille "Se mere"-knap på begivenhedskort ── */
+.se-mere-knap {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.75rem;
+  margin-top: 0.75rem;
+  display: block;
+  margin-left: auto;
 }

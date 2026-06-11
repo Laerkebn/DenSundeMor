@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout>
+ <div class="bg-[#ccbddd] flex flex-col pt-[8vh]">
+
+    <!-- Datavisualiseringsafsnit med lilla baggrund -->
+    <div class="px-[5%] py-10">
+
+      <!-- Sidetitel -->
+      <h1 class="text-white font-bold mb-3 whitespace-nowrap" style="font-size: clamp(1.5rem, 5vw, 3rem)">
+        Kommende begivenheder:
+      </h1>
+
+      <!-- Hvid boks til visualisering -->
+      <div class="visualisering-kasse">
+        <p class="visualisering-beskrivelse">Hvad har andre mødre skrevet om:</p>
+        <div id="sut-container" class="sut-container"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script is:inline>
+
+const kommentarer = [
+  {
+    navn: "Cafetur, 19 maj.",
+    alder: "13:00 - 15:00, 2026",
+    tekst: "Adresse: Vesterbrogade 142, 1620 København V"
+  },
+  {
+    navn: "Babysvømning, 22 juni.",
+    alder: "10:00 - 11:30, 2026",
+    tekst: "Adresse: Spanien 1, 8000 Aarhus C"
+  },
+  {
+    navn: "Kreativ workshop, 3 juli.",
+    alder: "14:00 - 16:00, 2026",
+    tekst: "Adresse: Kongensgade 111, 6700 Esbjerg"
+  },
+  {
+    navn: "Sommerpicnic, 18 juli.",
+    alder: "12:00 - 15:00, 2026",
+    tekst: "Adresse: Mølleplads 4, 9000 Aalborg"
+  },
+  {
+    navn: "Mødregruppe, 7 august.",
+    alder: "15:00 - 17:00, 2026",
+    tekst: "Adresse: Jernbanegade 23, 5000 Odense C"
+  },
+  {
+    navn: "Brunch og baby, 23 august.",
+    alder: "10:30 - 12:30, 2026",
+    tekst: "Adresse: Nygade 6, 7400 Herning"
+  }
+];
+
+    // ── Vis kommentarkort direkte når siden loader ──
+    const container = document.getElementById('sut-container');
+    container.style.position = 'relative';
+    container.style.height = '400px';
+    container.style.overflowY = 'auto';
+    container.style.display = 'flex';
+    container.style.flexDirection = 'column';
+    container.style.gap = '1rem';
+    container.style.padding = '0.5rem 0';
+
+kommentarer.forEach(kommentar => {
+  const kort = document.createElement('div');
+  kort.className = 'kommentar-kort';
+  kort.innerHTML = `
+    <p class="kommentar-navn">${kommentar.navn} · ${kommentar.alder}</p>
+    <p class="kommentar-tekst">${kommentar.tekst}</p>
+    <button class="knap se-mere-knap">Se mere</button>
+  `;
+  container.appendChild(kort);
+});
+
+  </script>
+
+  <!-- Nyhedsbrev sektion -->
+<div class="w-full bg-white px-[10%] py-16 flex flex-col md:flex-row items-center gap-12">
+  
+  <!-- Billede til venstre -->
+  <div class="flex-1 flex justify-center">
+    <img src="/Billeder/Boblerheadspace.svg" alt="Nyhedsbrev" style="max-width: 18rem; width: 100%;" />
+  </div>
+
+  <!-- Formular til højre -->
+  <div class="flex-1">
+    <h2 class="font-bold mb-4" style="font-size: clamp(1.5rem, 4vw, 2.5rem); text-transform: uppercase; color: #78ba53; font-style: italic;">
+      NYHEDSBREV
+    </h2>
+    <p class="mb-2" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
+      Nyhedsbrevet er til dig, som gerne vil vide mere om, hvordan vi sammen kan forbedre mental sundhed for børn og unge i Danmark.
+      Her får du bl.a. indsigt i vores arbejde, aktiviteter og kommende events.
+    </p>
+    <p class="mb-8" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
+      Du kan til enhver tid framelde dig.
+    </p>
+
+    <p class="felt-label">Fornavn</p>
+    <input type="text" class="felt-input" />
+
+    <p class="felt-label">Efternavn</p>
+    <input type="text" class="felt-input" />
+
+    <p class="felt-label">E-mail</p>
+    <input type="email" class="felt-input" />
+
+    <button class="knap" style="margin-top: 0.5rem;">Tilmeld dig</button>
+  </div>
+
+</div>
+</Layout>
