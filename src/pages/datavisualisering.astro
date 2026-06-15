@@ -10,36 +10,35 @@ import '../styles/global.css';
     <div class="px-[5%] py-10">
 
       <!-- Sidetitel -->
-      <h1 class="text-white font-bold mb-12 whitespace-nowrap" style="font-size: clamp(1.5rem, 5vw, 3rem)">
+      <h1 class="text-white font-bold mb-2" style="font-size: clamp(1.5rem, 5vw, 3rem)">
         Hvad oplever andre unge mødre?
       </h1>
 
-      <!-- Kategoriknapper — den aktive er grøn, inaktive er lysere grønne.
-           skiftKategori() i scriptet håndterer skiftet. -->
+      <!-- Kategoriknapper — første knap er aktiv fra start -->
       <div class="kategori-række">
-        <button class="knap" onclick="skiftKategori(this, 0)">KATEGORI 1</button>
-        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 1)">KATEGORI 2</button>
-        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 2)">KATEGORI 3</button>
-        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 3)">KATEGORI 4</button>
+        <button class="knap knap-aktiv" onclick="skiftKategori(this, 0)">Ligesom dig</button>
+        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 1)">Samme alder</button>
+        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 2)">Ensomhed</button>
+        <button class="knap knap-inaktiv" onclick="skiftKategori(this, 3)">Fortællinger</button>
       </div>
 
-   <!-- Hvid boks til visualisering -->
-<div class="visualisering-kasse">
-  <p id="visualisering-tekst" class="visualisering-beskrivelse">
-    Vælg en kategori for at se data
-  </p>
-  <div id="sut-container" class="sut-container"></div>
-</div>
+      <!-- Hvid boks til visualisering -->
+      <div class="visualisering-kasse">
+        <p id="visualisering-tekst" class="visualisering-beskrivelse">
+          Vælg en kategori for at se data
+        </p>
+        <div id="sut-container" class="sut-container"></div>
+      </div>
 
     </div>
 
     <!-- Hvid informationssektion nederst på siden -->
     <div class="w-full bg-white px-[10%] py-16">
       <div class="flex items-end mb-6" style="gap: 1rem; flex-wrap: nowrap;">
-    <h2 class="font-bold" style="font-size: clamp(0.9rem, 3.5vw, 2.5rem);  text-transform: uppercase; color: #78ba53; font-style: italic;">
-  GRATIS TILBUD TIL UNGE MØDRE
-</h2>
-        <img src="/Billeder/HeadspaceHjerte.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
+        <h2 class="font-bold" style="font-size: clamp(0.9rem, 3.5vw, 2.5rem); text-transform: uppercase; color: #78ba53; font-style: italic;">
+          GRATIS TILBUD TIL UNGE MØDRE
+        </h2>
+        <img src="/Billeder/Mortilmorlogo.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
       </div>
       <p class="mb-6" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #353635;">
         Hos Headspace tilbyder vi gratis fællesskaber og events for unge mødre mellem 12 og 25 år i hele Danmark. Her kan du møde andre i samme situation, dele erfaringer og få et pusterum i hverdagen sammen med mennesker, der forstår, hvordan livet som ung mor kan være.
@@ -52,176 +51,118 @@ import '../styles/global.css';
 
   </div>
 
-
-  
   <script is:inline>
 
-  // ── Data for hver kategori ──
-  // antal = hvor mange sutter der vises
-  // tekst = beskrivelsen øverst i boksen
-const kategorier = [
-  {
-    type: "sutter",
-    tekst: "158 mødre har svaret præcist det samme som dig",
-    antal: 158
-  },
-  {
-    type: "sutter",
-    tekst: "225 mødre er lige så gamle som dig",
-    antal: 225
-  },
-  {
-    type: "sutter",
-    tekst: "356 mødre føler sig også ensom til hverdag",
-    antal: 356
-  },
-  {
-    type: "kommentarer",
-    tekst: "Hvad har andre mødre skrevet om:",
-    kommentarer: [
+    const kategorier = [
+   {
+  type: "sutter",
+  tekst: "201 mødre har svaret det samme som dig de seneste 4 måneder:",
+  antal: 64,
+  svg: '/Billeder/Mortilmorlogo.svg'
+},
+{
+  type: "sutter",
+  tekst: "124 mødre matcher din og dit barns alder de seneste 4 måneder:",
+  antal: 236,
+  svg: '/Billeder/sut.svg'
+},
+{
+  type: "sutter",
+  tekst: "143 mødre har følt sig ensomme i hverdagen de seneste 4 måneder:",
+  antal: 202,
+  svg: '/Billeder/sky.svg'
+},
       {
-  navn: "Maria, 19",
-  alder: "Barn: 8 mdr.",
-  tekst: "Det bedste er de små øjeblikke om morgenen, når hun vågner og giver mig sit første smil. Selvom dagene nogle gange er lange og hårde, minder de øjeblikke mig om, hvorfor alt det svære er det hele værd."
-},
-{
-  navn: "Sofie, 22",
-  alder: "Barn: 2 år",
-  tekst: "Det sværeste er følelsen af ensomhed. Jeg er sammen med mit barn hele tiden, men jeg kan stadig savne nogen at dele mine tanker, bekymringer og oplevelser med. Nogle dage føles det, som om ingen helt forstår min hverdag."
-},
-{
-  navn: "Amina, 17",
-  alder: "Barn: 4 mdr.",
-  tekst: "Jeg har lært, at jeg også skal passe på mig selv. Derfor prøver jeg at tage en gåtur alene en gang imellem. Bare 20 minutter med frisk luft og mine egne tanker kan give mig ny energi til resten af dagen."
-},
-{
-  navn: "Freja, 20",
-  alder: "Barn: 1 år",
-  tekst: "Jeg er blevet meget stærkere, end jeg troede, jeg kunne være. At blive mor har lært mig at stole mere på mig selv og mine beslutninger, også når jeg er i tvivl eller føler mig usikker."
-},
-{
-  navn: "Nadia, 24",
-  alder: "Barn: 3 år",
-  tekst: "Noget af det vigtigste for mig har været at møde andre unge mødre. Det gør en kæmpe forskel at kunne snakke med nogen, der står i lignende situationer og forstår både glæderne og udfordringerne."
-},
-{
-  navn: "Emma, 18",
-  alder: "Barn: 6 mdr.",
-  tekst: "Jeg bekymrer mig nogle gange om fremtiden, men mit barn giver mig også motivation til at fortsætte. Hun minder mig hver dag om, at jeg er i stand til mere, end jeg selv tror."
-}
-    ]
-  }
-];
+        type: "kommentarer",
+        tekst: "Hvad har andre mødre skrevet om:",
+        kommentarer: [
+          { navn: "Maria, 19",  alder: "Barn: 8 mdr.", tekst: "Det bedste er de små øjeblikke om morgenen, når hun vågner og giver mig sit første smil. Selvom dagene nogle gange er lange og hårde, minder de øjeblikke mig om, hvorfor alt det svære er det hele værd." },
+          { navn: "Sofie, 22",  alder: "Barn: 2 år",  tekst: "Det sværeste er følelsen af ensomhed. Jeg er sammen med mit barn hele tiden, men jeg kan stadig savne nogen at dele mine tanker, bekymringer og oplevelser med. Nogle dage føles det, som om ingen helt forstår min hverdag." },
+          { navn: "Amina, 17",  alder: "Barn: 4 mdr.", tekst: "Jeg har lært, at jeg også skal passe på mig selv. Derfor prøver jeg at tage en gåtur alene en gang imellem. Bare 20 minutter med frisk luft og mine egne tanker kan give mig ny energi til resten af dagen." },
+          { navn: "Freja, 20",  alder: "Barn: 1 år",  tekst: "Jeg er blevet meget stærkere, end jeg troede, jeg kunne være. At blive mor har lært mig at stole mere på mig selv og mine beslutninger, også når jeg er i tvivl eller føler mig usikker." },
+          { navn: "Nadia, 24",  alder: "Barn: 3 år",  tekst: "Noget af det vigtigste for mig har været at møde andre unge mødre. Det gør en kæmpe forskel at kunne snakke med nogen, der står i lignende situationer og forstår både glæderne og udfordringerne." },
+          { navn: "Emma, 18",   alder: "Barn: 6 mdr.", tekst: "Jeg bekymrer mig nogle gange om fremtiden, men mit barn giver mig også motivation til at fortsætte. Hun minder mig hver dag om, at jeg er i stand til mere, end jeg selv tror." }
+        ]
+      }
+    ];
 
-  // ── Skifter kategori og viser de rigtige sutter ──
-  function skiftKategori(klikketKnap, kategoriIndex) {
-  document.querySelectorAll('.kategori-række button').forEach(k => {
-    k.classList.add('knap-inaktiv');
-  });
-  klikketKnap.classList.remove('knap-inaktiv');
+    // ── Skifter kategori og viser de rigtige sutter ──
+    function skiftKategori(klikketKnap, kategoriIndex) {
 
-  const valgtKategori = kategorier[kategoriIndex];
-  document.getElementById('visualisering-tekst').textContent = valgtKategori.tekst;
+      // Opdater knappernes udseende
+   document.querySelectorAll('.kategori-række button').forEach(k => {
+  k.classList.remove('knap-aktiv');
+});
+klikketKnap.classList.add('knap-aktiv');
 
-  const container = document.getElementById('sut-container');
-container.innerHTML = '';
+      // Opdater beskrivelsesteksten med grønt tal
+      const valgtKategori = kategorier[kategoriIndex];
+      const tekstMedFarve = valgtKategori.tekst.replace(/(\d+)/, '<span class="visualisering-antal">$1</span>');
+      document.getElementById('visualisering-tekst').innerHTML = tekstMedFarve;
 
-// Nulstil container-styles hver gang vi skifter kategori
-container.style.position = 'relative';
-container.style.height = '400px';
-container.style.display = 'block';
-container.style.flexDirection = '';
-container.style.gap = '';
-container.style.padding = '';
-container.style.overflowY = 'hidden';
+      // Nulstil container
+      const container = document.getElementById('sut-container');
+      container.innerHTML = '';
+      container.style.position = 'relative';
+      container.style.height = '400px';
+      container.style.display = 'block';
+      container.style.flexDirection = '';
+      container.style.gap = '';
+      container.style.padding = '';
+      container.style.overflowY = 'hidden';
 
-if (valgtKategori.type === 'sutter') {
-  // ── Vis sutter der falder ned ──
-  const containerBredde = container.offsetWidth;
-  const sutBredde = 32;
-  const sutterPerRaekke = Math.floor(containerBredde / sutBredde);
-  const containerHoejde = container.offsetHeight;
+      if (valgtKategori.type === 'sutter') {
+        const containerBredde = container.offsetWidth;
+        const sutBredde = 20;
+        const sutterPerRaekke = Math.floor(containerBredde / sutBredde);
+        const containerHoejde = container.offsetHeight;
 
-  for (let i = 0; i < valgtKategori.antal; i++) {
-    const raekke = Math.floor(i / sutterPerRaekke);
-    const kolonne = i % sutterPerRaekke;
-    const vandretPosition = kolonne * sutBredde + Math.random() * 10;
-    const landingsPosition = containerHoejde - sutBredde - (raekke * sutBredde);
+        for (let i = 0; i < valgtKategori.antal; i++) {
+          const raekke = Math.floor(i / sutterPerRaekke);
+          const kolonne = i % sutterPerRaekke;
+          const vandretPosition = kolonne * sutBredde + Math.random() * 10;
+          const landingsPosition = containerHoejde - sutBredde - (raekke * sutBredde);
 
-    const sut = document.createElement('img');
-    sut.src = '/Billeder/sut.svg';
-    sut.className = 'sut';
-    sut.style.left = vandretPosition + 'px';
-    sut.style.setProperty('--lande-position', landingsPosition + 'px');
-    sut.style.opacity = '0';
-    sut.style.transform = `rotate(${(Math.random() * 60) - 30}deg)`;
-    sut.style.animationDuration = (0.6 + Math.random() * 0.3) + 's';
-    sut.style.animationDelay = (i * 0.08) + 's';
-    sut.style.animationFillMode = 'forwards';
-    container.appendChild(sut);
-  }
+          const sut = document.createElement('img');
+         sut.src = valgtKategori.svg;
+          sut.className = 'sut';
+          sut.style.left = vandretPosition + 'px';
+          sut.style.setProperty('--lande-position', landingsPosition + 'px');
+          sut.style.opacity = '0';
+       sut.style.transform = `rotate(${(Math.random() * 180) - 90}deg)`;
+      sut.style.animationDuration = (0.3 + Math.random() * 0.2) + 's';
 
-} else if (valgtKategori.type === 'kommentarer') {
-  // ── Vis kommentarkort ──
-  container.style.position = 'relative';
-  container.style.height = '400px';
-  container.style.overflowY = 'auto';
-  container.style.display = 'flex';
-  container.style.flexDirection = 'column';
-  container.style.gap = '1rem';
-  container.style.padding = '0.5rem 0';
+      sut.style.animationDelay = (i * 0.08) + 's';
+      sut.style.animationFillMode = 'forwards';
+      sut.style.animationName = 'faldNed';
+sut.style.animationTimingFunction = 'ease-in';
+          container.appendChild(sut);
+        }
+        
 
-  valgtKategori.kommentarer.forEach(kommentar => {
-    const kort = document.createElement('div');
-    kort.className = 'kommentar-kort';
-    kort.innerHTML = `
-      <p class="kommentar-navn">${kommentar.navn} · ${kommentar.alder}</p>
-      <p class="kommentar-tekst">${kommentar.tekst}</p>
-    `;
-    container.appendChild(kort);
-  });
-}
-}
+      } else if (valgtKategori.type === 'kommentarer') {
+        container.style.height = '400px';
+        container.style.overflowY = 'auto';
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.gap = '1rem';
+        container.style.padding = '0.5rem 0';
 
-  // Vis første kategori når siden loader
-  const foersteKnap = document.querySelector('.kategori-række button');
-  if (foersteKnap) skiftKategori(foersteKnap, 0);
+        valgtKategori.kommentarer.forEach(kommentar => {
+          const kort = document.createElement('div');
+          kort.className = 'kommentar-kort';
+          kort.innerHTML = `
+            <p class="kommentar-navn">${kommentar.navn} · ${kommentar.alder}</p>
+            <p class="kommentar-tekst">${kommentar.tekst}</p>
+          `;
+          container.appendChild(kort);
+        });
+      }
+    }
 
-</script>
+    // Vis første kategori når siden loader
+    const foersteKnap = document.querySelector('.kategori-række button');
+    if (foersteKnap) skiftKategori(foersteKnap, 0);
 
-
-    <!-- Nyhedsbrev sektion -->
-<div class="w-full bg-[#ccbddd] px-[10%] py-16 flex flex-col md:flex-row items-center gap-12">
-  
-  <!-- Billede til venstre -->
-  <div class="flex-1 flex justify-center">
-    <img src="/Billeder/hvidBoblerheadspace.svg" alt="Nyhedsbrev" style="max-width: 18rem; width: 100%;" />
-  </div>
-
-  <!-- Formular til højre -->
-  <div class="flex-1">
-    <h2 class="font-bold mb-4" style="font-size: clamp(1.5rem, 4vw, 2.5rem); text-transform: uppercase; color: #78ba53; font-style: italic;">
-      NYHEDSBREV
-    </h2>
-    <p class="mb-2" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
-      Nyhedsbrevet er til dig, som gerne vil vide mere om, hvordan vi sammen kan forbedre mental sundhed for børn og unge i Danmark.
-      Her får du bl.a. indsigt i vores arbejde, aktiviteter og kommende events.
-    </p>
-    <p class="mb-8" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
-      Du kan til enhver tid framelde dig.
-    </p>
-
-    <p class="felt-label">Fornavn</p>
-    <input type="text" class="felt-input" />
-
-    <p class="felt-label">Efternavn</p>
-    <input type="text" class="felt-input" />
-
-    <p class="felt-label">E-mail</p>
-    <input type="email" class="felt-input" />
-
-    <button class="knap" style="margin-top: 0.5rem;">Tilmeld dig</button>
-  </div>
-
-</div>
+  </script>
 </Layout>

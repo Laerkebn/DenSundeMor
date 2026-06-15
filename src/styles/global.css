@@ -14,7 +14,10 @@
   src: url("/font/Agrandir-TextBold.otf") format("opentype");
   font-weight: 700;
 }
-
+@font-face {
+  font-family: 'Agrandir-GrandHeavy';
+  src: url('/font/Agrandir-GrandHeavy.otf') format('opentype');
+}
 /* ════════════════════════════════════════
    GRUNDLÆGGENDE SIDEOPSÆTNING
    ════════════════════════════════════════ */
@@ -53,6 +56,42 @@ body {
   font-size: 2rem;
   color: #78ba53;
   margin: 0;
+}
+
+/* ════════════════════════════════════════
+   BURGER MENU OVERLAY
+   ════════════════════════════════════════ */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  background: #78ba53;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  z-index: 40;
+  transition: height 0.35s ease;
+}
+
+.menu-overlay-aaben {
+  height: 100vh;
+}
+
+.menu-link {
+  font-family: "Agrandir", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  color: #353635;
 }
 
 /* ════════════════════════════════════════
@@ -109,10 +148,10 @@ body {
 }
 
 /* ── Lysere grøn knap til inaktive kategoriknapper ── */
-.knap-inaktiv {
-  background: #a8d88a;
+/* ── Aktiv kategoriknap ── */
+.knap-aktiv {
+  background: #698534 !important;
 }
-
 /* ════════════════════════════════════════
    SPØRGSMÅLSKASSE
    ════════════════════════════════════════ */
@@ -185,6 +224,14 @@ body {
   margin-bottom: 0.5rem;
 }
 
+/* ── Overskrift på hvert spørgsmål ── */
+.spoergsmaal-label {
+  font-size: clamp(1rem, 3vw, 1.75rem);
+  font-weight: 700;
+  color: #353635;
+  margin-bottom: 0.5rem;
+}
+
 /* ── Enkeltlinjet tekstfelt ── */
 .felt-input {
   width: 100%;
@@ -253,6 +300,11 @@ body {
   justify-content: center;
 }
 
+.kategori-række button {
+  flex: 1;
+  min-width: 8rem;
+}
+
 /* ── Hvid boks der indeholder visualiseringen ── */
 .visualisering-kasse {
   background: white;
@@ -263,17 +315,17 @@ body {
 
 /* ── Beskrivelsestekst øverst i visualiseringsboksen ── */
 .visualisering-beskrivelse {
-  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-size: clamp(1rem, 3vw, 1.75rem);
+  font-weight: 700;
   color: #353635;
   margin-bottom: 1rem;
 }
-
+/* ── Det grønne tal i beskrivelsesteksten ── */
+.visualisering-antal {
+  color: #78ba53;
+}
 /* ════════════════════════════════════════
    SUTTEVISUALISERING
-   Sutterne falder ned fra toppen og lander
-   i bunden af boksen. position: relative på
-   containeren gør at absolute-positionerede
-   sutter placeres relativt til den.
    ════════════════════════════════════════ */
 
 /* ── Containeren der holder alle sutterne ── */
@@ -287,7 +339,7 @@ body {
 /* ── En enkelt sut ── */
 .sut {
   position: absolute;
-  width: 3rem;
+  width: 1.5rem;
   animation: faldNed linear forwards;
 }
 
@@ -337,4 +389,33 @@ body {
   margin-top: 0.75rem;
   display: block;
   margin-left: auto;
+}
+@keyframes faldNed {
+  from {
+    top: -4rem;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    top: calc(var(--lande-position) - 8px);
+  }
+  95% {
+    top: calc(var(--lande-position) + 3px);
+  }
+  to {
+    top: var(--lande-position);
+    opacity: 1;
+  }
+}
+
+/* Fjern scrollbar visuelt, men bevar scroll-funktionalitet */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

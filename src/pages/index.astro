@@ -24,13 +24,12 @@ import '../styles/global.css';
       <div class="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
         <div class="text-center px-[5%]">
           <h1 class="text-white font-bold mb-3 whitespace-nowrap"
-             style="font-size: clamp(1.5rem, 5vw, 3rem)">
+             style="font-style: italic; font-size: clamp(2.5rem, 5vw, 3rem) ">
             Mor til mor
           </h1>
           <p class="text-white font-bold mb-6"
              style="font-size: clamp(0.85rem, 2vw, 1.25rem); width:80%; margin-left:auto; margin-right:auto;">
-            Headspace tilbyder gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark.
-          </p>
+         En app fra Headspace, der samler gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark. </p>
           <!-- Knappen scroller siden ned til spørgsmålskassen -->
           <button id="scroll-knap" class="knap">
             Bliv en del af fællesskabet
@@ -41,9 +40,6 @@ import '../styles/global.css';
 
     <!-- ════════════════════════════════════════
          SPØRGSMÅLSSEKTION
-         Lilla baggrund bag den hvide spørgsmålskasse.
-         scroll-margin-top sikrer headeren ikke
-         dækker toppen når siden scroller hertil.
          ════════════════════════════════════════ -->
     <div id="scroll-maal" class="bg-[#ccbddd] w-full flex justify-center" style="scroll-margin-top: 8vh">
       <div id="spoergsmaal" class="spoergsmaal-kasse">
@@ -61,7 +57,7 @@ import '../styles/global.css';
       <h2 class="font-bold" style="font-size: clamp(0.9rem, 3.5vw, 2.5rem);  text-transform: uppercase; color: #78ba53; font-style: italic;">
   GRATIS TILBUD TIL UNGE MØDRE
 </h2>
-        <img src="/Billeder/HeadspaceHjerte.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
+        <img src="/Billeder/Mortilmorlogo.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
       </div>
       <p class="mb-6" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #353635;">
         Hos Headspace tilbyder vi gratis fællesskaber og events for unge mødre mellem 12 og 25 år i hele Danmark. Her kan du møde andre i samme situation, dele erfaringer og få et pusterum i hverdagen sammen med mennesker, der forstår, hvordan livet som ung mor kan være.
@@ -76,17 +72,10 @@ import '../styles/global.css';
 
   <!-- ════════════════════════════════════════
        JAVASCRIPT — SPØRGESKEMA
-       Scriptet styrer hele spørgeskemaet.
-       is:inline betyder Astro ikke processor
-       scriptet, så det kører direkte i browseren.
        ════════════════════════════════════════ -->
   <script is:inline>
 
     // ── Alle spørgsmål og deres indhold ──
-    // Hvert spørgsmål har en "type" der bestemmer hvordan det vises:
-    // - "intro"  → velkomsttekst med en Start-knap
-    // - "felter" → en eller flere tekstfelter man kan skrive i
-    // - "multi"  → knapper man kan klikke på for at vælge svar
     const alleSpoergsmaal = [
       {
         type: "intro",
@@ -130,13 +119,13 @@ import '../styles/global.css';
     let aktivtSpoergsmaalIndex = 0;
 
     // ── Laver HTML for ét inputfelt (lille eller stort) ──
-    function lavInputFelt(felt) {
-      const labelHTML = `<p class="felt-label">${felt.label}</p>`;
-      if (felt.storTekstboks) {
-        return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`;
-      }
-      return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;
-    }
+   function lavInputFelt(felt) {
+  const labelHTML = `<p class="spoergsmaal-label">${felt.label}</p>`;
+  if (felt.storTekstboks) {
+    return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`;
+  }
+  return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;
+}
 
     // ── Viser intro-siden med velkomsttekst og Start-knap ──
     function visIntro(spoergsmaal) {
@@ -266,11 +255,10 @@ import '../styles/global.css';
       NYHEDSBREV
     </h2>
     <p class="mb-2" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
-      Nyhedsbrevet er til dig, som gerne vil vide mere om, hvordan vi sammen kan forbedre mental sundhed for børn og unge i Danmark.
-      Her får du bl.a. indsigt i vores arbejde, aktiviteter og kommende events.
+      Vil du være blandt de første til at høre om nye events, fællesskaber og aktiviteter for unge mødre? Tilmeld dig nyhedsbrevet og få inspiration, støtte og invitationer direkte i din indbakke.
     </p>
     <p class="mb-8" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.7; color: #353635;">
-      Du kan til enhver tid framelde dig.
+      Det er gratis, og du kan til enhver tid afmelde dig.
     </p>
 
     <p class="felt-label">Fornavn</p>

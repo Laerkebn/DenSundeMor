@@ -5,21 +5,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Nunito bruges til headspace-logoet i headeren -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
     <slot name="head" />
     <title>Headspace</title>
   </head>
   <body>
-    <!-- Fast header der følger med når man scroller -->
     <header class="side-header">
       <a href="/" style="text-decoration: none;">
-  <p class="header-logo">headspace</p>
-</a>
-      <img src="/Billeder/Burger.svg" alt="Menu" style="height:1.5rem; cursor:pointer;" />
+        <img src="/Billeder/Mortilmorlogo.svg" alt="Menu" style="height:3.2rem; cursor:pointer;" />
+      </a>
+      <img id="burger-knap" src="/Billeder/Burger.svg" alt="Menu" style="height:1.5rem; cursor:pointer;" />
     </header>
 
-    <!-- Sidens indhold indsættes her fra hver enkelt side -->
+    <nav id="menu-overlay" class="menu-overlay">
+      <a href="/" class="menu-link">Forside</a>
+      <a href="/datavisualisering" class="menu-link">Datavisualisering</a>
+      <a href="/faelleskab" class="menu-link">Fælleskaber</a>
+    </nav>
+
     <slot />
+
+    <script>
+      const burger = document.getElementById("burger-knap");
+      const menu = document.getElementById("menu-overlay");
+
+      burger?.addEventListener("click", () => {
+        menu?.classList.toggle("menu-overlay-aaben");
+      });
+    </script>
   </body>
 </html>
