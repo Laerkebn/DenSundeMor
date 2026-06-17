@@ -4,17 +4,33 @@ import '../styles/global.css';
 ---
 
 <Layout>
+  <!-- ════════════════════════════════════════════════════════════════
+       LILLE TAILWIND-ORDBOG (klasserne går igen på alle sider):
+         flex / flex-col   = display:flex / stabl børnene lodret
+         items-center      = centrer børnene på tværs
+         w-full            = bredde 100%
+         pt-[8vh]          = padding foroven på 8vh (= headerens højde)
+         px-[5%] py-10     = padding i siderne / top+bund
+         mb-2  mb-6        = margin-bottom (afstand nedad), tal = størrelse
+         bg-[#ccbddd]      = baggrundsfarve (firkantparentes = vilkårlig værdi)
+         text-white        = hvid tekst,  font-bold = fed
+       Alt med style="..." er almindelig CSS skrevet direkte på elementet.
+       ════════════════════════════════════════════════════════════════ -->
+
+  <!-- Yderste boks: lilla baggrund, indhold stablet lodret, skubbet ned under headeren -->
   <div class="bg-[#ccbddd] flex flex-col pt-[8vh]">
 
-    <!-- Datavisualiseringsafsnit med lilla baggrund -->
+    <!-- Datavisualiseringsafsnit med lilla baggrund (luft i siderne + top/bund) -->
     <div class="px-[5%] py-10">
 
-      <!-- Sidetitel -->
+      <!-- Sidetitel. clamp(min, fluid, max) = skriftstørrelsen skalerer med skærmen -->
       <h1 class="text-white font-bold mb-2" style="font-size: clamp(1.5rem, 5vw, 3rem)">
         Hvad oplever andre unge mødre?
       </h1>
 
-      <!-- Kategoriknapper — første knap er aktiv fra start -->
+      <!-- Kategoriknapper. onclick kalder skiftKategori med 'this' (knappen selv) + et tal (0-3)
+           der peger på det rigtige kort i 'kategorier'-listen i scriptet.
+           Første knap har 'knap-aktiv' (grøn) fra start. -->
       <div class="kategori-række">
         <button class="knap knap-aktiv" onclick="skiftKategori(this, 0)">Ligesom dig</button>
         <button class="knap knap-inaktiv" onclick="skiftKategori(this, 1)">Samme alder</button>
@@ -22,34 +38,42 @@ import '../styles/global.css';
         <button class="knap knap-inaktiv" onclick="skiftKategori(this, 3)">Fortællinger</button>
       </div>
 
-      <!-- Hvid boks til visualisering -->
+      <!-- Hvid boks til visualiseringen -->
       <div class="visualisering-kasse">
+        <!-- Beskrivelsesteksten. id'et bruges af scriptet til at skrive den rigtige tekst ind -->
         <p id="visualisering-tekst" class="visualisering-beskrivelse">
           Vælg en kategori for at se data
         </p>
+        <!-- TOM med vilje: scriptet fylder denne boks med sutter eller kommentar-kort -->
         <div id="sut-container" class="sut-container"></div>
       </div>
 
     </div>
 
-    <!-- Hvid informationssektion nederst på siden -->
+    <!-- Hvid informationssektion nederst på siden (fuld bredde, masser af luft i siderne) -->
     <div class="w-full bg-white px-[10%] py-16">
+      <!-- Overskrift + logo ved siden af hinanden. items-end = juster dem ved bunden. flex-wrap:nowrap = bryd aldrig til ny linje -->
       <div class="flex items-end mb-6" style="gap: 1rem; flex-wrap: nowrap;">
+        <!-- text-transform:uppercase = store bogstaver. font-style:italic = kursiv -->
         <h2 class="font-bold" style="font-size: clamp(0.9rem, 3.5vw, 2.5rem); text-transform: uppercase; color: #78ba53; font-style: italic;">
           GRATIS TILBUD TIL UNGE MØDRE
         </h2>
+        <!-- flex-shrink:0 = lad ALDRIG billedet skrumpe, selv hvis der mangler plads -->
         <img src="/Billeder/Mortilmorlogo.svg" alt="Headspace hjerte" style="height: clamp(1.5rem, 5vw, 5rem); flex-shrink: 0; margin-bottom: clamp(0.3rem, 1vw, 0.9rem);" />
       </div>
+      <!-- Brødtekst. line-height:1.8 = god luft mellem linjerne -->
       <p class="mb-6" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #353635;">
         Hos Headspace tilbyder vi gratis fællesskaber og events for unge mødre mellem 12 og 25 år i hele Danmark. Her kan du møde andre i samme situation, dele erfaringer og få et pusterum i hverdagen sammen med mennesker, der forstår, hvordan livet som ung mor kan være.
       </p>
       <p class="mb-8" style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #353635;">
         Vores aktiviteter spænder fra hyggelige caféaftener og kreative workshops til sociale arrangementer og fælles oplevelser. Det handler ikke om at være den perfekte mor – det handler om at finde støtte, skabe nye relationer og opleve, at du ikke står alene. Alle er velkomne, og det er altid gratis at deltage.
       </p>
+      <!-- Knap der sender brugeren videre til fællesskab-siden. &rsaquo; = tegnet › -->
       <button class="knap knap-omvendt" onclick="window.location.href='/faelleskab'">Find et fællesskab nær dig &rsaquo;</button>
     </div>
 
   </div>
+
 
   <script is:inline>
 
@@ -89,9 +113,9 @@ import '../styles/global.css';
     // ── Skifter kategori og viser de rigtige sutter ──
     function skiftKategori(klikketKnap, kategoriIndex) {
 
-      // Opdater knappernes udseende
-   document.querySelectorAll('.kategori-række button').forEach(k => {
-  k.classList.remove('knap-aktiv');
+      // Opdater knappernes udseende hvis klikket på
+   document.querySelectorAll('.kategori-række button').forEach(knap => {
+  knap.classList.remove('knap-aktiv');
 });
 klikketKnap.classList.add('knap-aktiv');
 
@@ -117,9 +141,9 @@ klikketKnap.classList.add('knap-aktiv');
         const sutterPerRaekke = Math.floor(containerBredde / sutBredde);
         const containerHoejde = container.offsetHeight;
 
-        for (let i = 0; i < valgtKategori.antal; i++) {
-          const raekke = Math.floor(i / sutterPerRaekke);
-          const kolonne = i % sutterPerRaekke;
+        for (let sutNummer = 0; sutNummer < valgtKategori.antal; sutNummer++) {
+          const raekke = Math.floor(sutNummer / sutterPerRaekke);
+          const kolonne = sutNummer % sutterPerRaekke;
           const vandretPosition = kolonne * sutBredde + Math.random() * 10;
           const landingsPosition = containerHoejde - sutBredde - (raekke * sutBredde);
 
@@ -132,7 +156,7 @@ klikketKnap.classList.add('knap-aktiv');
        sut.style.transform = `rotate(${(Math.random() * 180) - 90}deg)`;
       sut.style.animationDuration = (0.3 + Math.random() * 0.2) + 's';
 
-      sut.style.animationDelay = (i * 0.08) + 's';
+      sut.style.animationDelay = (sutNummer * 0.08) + 's';
       sut.style.animationFillMode = 'forwards';
       sut.style.animationName = 'faldNed';
 sut.style.animationTimingFunction = 'ease-in';
@@ -149,13 +173,13 @@ sut.style.animationTimingFunction = 'ease-in';
         container.style.padding = '0.5rem 0';
 
         valgtKategori.kommentarer.forEach(kommentar => {
-          const kort = document.createElement('div');
-          kort.className = 'kommentar-kort';
-          kort.innerHTML = `
+          const kommentarKort = document.createElement('div');
+          kommentarKort.className = 'kommentar-kort';
+          kommentarKort.innerHTML = `
             <p class="kommentar-navn">${kommentar.navn} · ${kommentar.alder}</p>
             <p class="kommentar-tekst">${kommentar.tekst}</p>
           `;
-          container.appendChild(kort);
+          container.appendChild(kommentarKort);
         });
       }
     }

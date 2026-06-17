@@ -10,13 +10,15 @@
     <title>Headspace</title>
   </head>
   <body>
-    <header class="side-header">
-      <a href="/" style="text-decoration: none;">
+    <!--  Fixed header med logo and burger menu -->
+    <header class="side-header"> 
+      <a href="/" style="text-decoration: none;"> 
         <img src="/Billeder/Mortilmorlogo.svg" alt="Menu" style="height:3.2rem; cursor:pointer;" />
       </a>
-      <img id="burger-knap" src="/Billeder/Burger.svg" alt="Menu" style="height:1.5rem; cursor:pointer;" />
-    </header>
 
+      <!-- Burgerknap der åbner menuen -->
+      <img id="burger-knap" src="/Billeder/Burger.svg" alt="TilForsiden" style="height:1.5rem; cursor:pointer;" />
+    </header>
     <nav id="menu-overlay" class="menu-overlay">
       <a href="/" class="menu-link">Forside</a>
       <a href="/datavisualisering" class="menu-link">Datavisualisering</a>
@@ -26,11 +28,12 @@
     <slot />
 
     <script>
-      const burger = document.getElementById("burger-knap");
-      const menu = document.getElementById("menu-overlay");
+      const burgerKnap = document.getElementById("burger-knap");
+      const menuOverlay = document.getElementById("menu-overlay");
 
-      burger?.addEventListener("click", () => {
-        menu?.classList.toggle("menu-overlay-aaben");
+      
+      burgerKnap?.addEventListener("click", () => { //Arrow function
+        menuOverlay?.classList.toggle("menu-overlay-aaben");
       });
     </script>
   </body>

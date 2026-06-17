@@ -5,40 +5,44 @@ const mapboxToken = import.meta.env.PUBLIC_MAPBOX_TOKEN;
 ---
 
 <Layout>
+  <!-- Yderste boks: lilla baggrund, indhold stablet lodret, skubbet ned under headeren (pt-[8vh]) -->
   <div class="bg-[#ccbddd] flex flex-col pt-[8vh]">
 
     <!-- Begivenhedssektionen med lilla baggrund -->
     <div class="px-[5%] py-7">
 
+<!-- whitespace-nowrap = lad overskriften aldrig brække til to linjer. font-style:italic = kursiv -->
 <h1 class="text-white font-bold mb-3 whitespace-nowrap" style="font-style: italic; font-size: clamp(1.5rem, 5vw, 3rem);">
   Kommende begivenheder:
 </h1>
 
       <div class="visualisering-kasse">
         <p class="text-[#353635] font-bold mb-1" style="font-size: clamp(1rem, 3vw, 1.75rem)">Find din næste begivenhed her:</p>
+        <!-- TOM med vilje: scriptet fylder denne boks med begivenheds-kort (genbruger sut-container) -->
         <div id="sut-container" class="sut-container"></div>
       </div>
 
     </div>
 
-    <!-- Kortsektion -->
+    <!-- Kortsektion (hvid baggrund) -->
     <div class="px-[5%] bg-[#ffffff] pb-10 pt-5">
       <h2 class="text-[#353635] font-bold mb-1" style="font-size: clamp(1rem, 3vw, 1.75rem) font-family: 'Agrandir-GrandHeavy', sans-serif;">
         Find begivenheder på kortet:
       </h2>
-      <!-- Mapbox kortet renderes her -->
+      <!-- Mapbox tegner kortet ind i netop denne div (scriptet finder den via id="kort").
+           overflow:hidden klipper kortet pænt af inden for de afrundede hjørner. -->
       <div id="kort" style="width:100%; height:500px; border-radius:1rem; overflow:hidden;"></div>
     </div>
 
   </div>
 
-  <!-- Mapbox CSS -->
+  <!-- Mapbox' eget stylesheet (kræves for at kortet og markørerne ser rigtige ud) -->
   <link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet" />
 
   <script is:inline>
 
     // ── Begivenhedsdata med koordinater ──
-    const kommentarer = [
+    const begivenheder = [
       { navn: "Cafetur, 19 maj.",       alder: "13:00 - 15:00, 2026", tekst: "Adresse: Vesterbrogade 142, 1620 København V", koordinater: [12.5483, 55.6731] },
       { navn: "Babysvømning, 22 juni.", alder: "10:00 - 11:30, 2026", tekst: "Adresse: Spanien 1, 8000 Aarhus C",            koordinater: [10.2134, 56.1496] },
       { navn: "Kreativ workshop, 3 juli.", alder: "14:00 - 16:00, 2026", tekst: "Adresse: Kongensgade 111, 6700 Esbjerg",    koordinater: [8.4524, 55.4762] },
@@ -57,28 +61,28 @@ const mapboxToken = import.meta.env.PUBLIC_MAPBOX_TOKEN;
     container.style.gap = '1rem';
     container.style.padding = '0.5rem 0';
 
-    kommentarer.forEach(kommentar => {
-      const kort = document.createElement('div');
-      kort.className = 'kommentar-kort';
-      kort.innerHTML = `
-        <p class="kommentar-navn">${kommentar.navn} · ${kommentar.alder}</p>
-        <p class="kommentar-tekst">${kommentar.tekst}</p>
+    begivenheder.forEach(begivenhed => {
+      const begivenhedsKort = document.createElement('div');
+      begivenhedsKort.className = 'kommentar-kort';
+      begivenhedsKort.innerHTML = `
+        <p class="kommentar-navn">${begivenhed.navn} · ${begivenhed.alder}</p>
+        <p class="kommentar-tekst">${begivenhed.tekst}</p>
         <button class="knap se-mere-knap">Se mere</button>
       `;
-      container.appendChild(kort);
+      container.appendChild(begivenhedsKort);
     });
 
     // ── Indlæs Mapbox og opret kort ──
     // Mapbox GL JS hentes fra CDN og køres når siden er loadet
-    const script = document.createElement('script');
-    script.src = 'https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js';
-    script.onload = () => {
+    const mapboxScript = document.createElement('script');
+    mapboxScript.src = 'https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js';
+    mapboxScript.onload = () => {
 
       // Din Mapbox adgangsnøgle
       mapboxgl.accessToken = 'pk.eyJ1IjoiNTcxNTUiLCJhIjoiY21xYXZxZDN3MDh4NzJ0cXNydjVwYzZuMSJ9.Wot7uHJ0c4e9y5o1n-sofA';
 
       // Opret kortet centreret over Danmark
-      const map = new mapboxgl.Map({
+      const kortet = new mapboxgl.Map({
         container: 'kort',
         style: 'mapbox://styles/mapbox/standard',
         center: [10.5, 56.0],
@@ -86,8 +90,8 @@ const mapboxToken = import.meta.env.PUBLIC_MAPBOX_TOKEN;
       });
 
       // Tilføj en markør for hver begivenhed
-      kommentarer.forEach(begivenhed => {
-        const popup = new mapboxgl.Popup({ offset: 25 })
+      begivenheder.forEach(begivenhed => {
+        const infoboks = new mapboxgl.Popup({ offset: 25 })
           .setHTML(`
             <strong style="color:#78ba53">${begivenhed.navn}</strong><br>
             ${begivenhed.alder}<br>
@@ -96,12 +100,12 @@ const mapboxToken = import.meta.env.PUBLIC_MAPBOX_TOKEN;
 
         new mapboxgl.Marker({ color: '#78ba53' })
           .setLngLat(begivenhed.koordinater)
-          .setPopup(popup)
-          .addTo(map);
+          .setPopup(infoboks)
+          .addTo(kortet);
       });
     };
 
-    document.head.appendChild(script);
+    document.head.appendChild(mapboxScript);
 
   </script>
 </Layout>

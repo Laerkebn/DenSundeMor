@@ -10,7 +10,13 @@ import '../styles/global.css';
     <!-- ════════════════════════════════════════
          VIDEOAFSNIT
          ════════════════════════════════════════ -->
+    <!-- relative = denne boks er "referencepunkt" for de absolut placerede lag indeni.
+         h-[82vh] = 82% af skærmhøjden.  overflow-hidden = klip video der stikker udenfor. -->
     <div class="relative w-full h-[82vh] overflow-hidden">
+      <!-- absolute inset-0 = lim videoen fast til alle 4 kanter af boksen ovenfor.
+           object-cover = fyld hele feltet uden at video forvrænges (beskærer i stedet).
+           autoplay=start selv | muted=uden lyd (KRÆVES for autoplay) | loop=afspil i ring
+           playsinline=tving IKKE fuldskærm på iPhone (vigtigt i en mobil-app). -->
       <video
         class="absolute inset-0 w-full h-full object-cover"
         src="/videoer/UngMorFIlmbedre.mp4"
@@ -20,9 +26,10 @@ import '../styles/global.css';
         playsinline
       ></video>
 
-      <!-- Tekst og knap placeret nederst på videoen -->
+      <!-- Tekstlag OVEN PÅ videoen. justify-end = skub indholdet ned i bunden. pb-[8%] = luft forneden -->
       <div class="absolute inset-0 flex flex-col items-center justify-end pb-[8%]">
         <div class="text-center px-[5%]">
+          <!-- whitespace-nowrap = titlen brækker aldrig til to linjer -->
           <h1 class="text-white font-bold mb-3 whitespace-nowrap"
              style="font-style: italic; font-size: clamp(2.5rem, 5vw, 3rem) ">
             Mor til mor
@@ -30,7 +37,7 @@ import '../styles/global.css';
           <p class="text-white font-bold mb-6"
              style="font-size: clamp(0.85rem, 2vw, 1.25rem); width:80%; margin-left:auto; margin-right:auto;">
          En app fra Headspace, der samler gratis events og fællesskaber for unge mødre mellem 12 og 25 år i hele Danmark. </p>
-          <!-- Knappen scroller siden ned til spørgsmålskassen -->
+          <!-- id="scroll-knap": scriptet hænger en klik-lytter på den, der scroller ned til spørgsmålskassen -->
           <button id="scroll-knap" class="knap">
             Bliv en del af fællesskabet
           </button>
@@ -41,9 +48,11 @@ import '../styles/global.css';
     <!-- ════════════════════════════════════════
          SPØRGSMÅLSSEKTION
          ════════════════════════════════════════ -->
+    <!-- id="scroll-maal" = målet scroll-knappen hopper til.
+         scroll-margin-top:8vh = stop 8vh nede, så headeren ikke dækker toppen. -->
     <div id="scroll-maal" class="bg-[#ccbddd] w-full flex justify-center" style="scroll-margin-top: 8vh">
       <div id="spoergsmaal" class="spoergsmaal-kasse">
-        <!-- Spørgsmålene indsættes her dynamisk af JavaScript -->
+        <!-- TOM med vilje: scriptet skriver det aktuelle spørgsmål herind via innerHTML -->
         <div id="spoergsmaal-indhold"></div>
       </div>
     </div>
@@ -71,20 +80,41 @@ import '../styles/global.css';
   </div>
 
   <!-- ════════════════════════════════════════
-       JAVASCRIPT — SPØRGESKEMA
+       JAVASCRIPT — SPØRGESKEMA - Dette er lavet med AI
        ════════════════════════════════════════ -->
   <script is:inline>
 
-    // ── Alle spørgsmål og deres indhold ──
+    /* ════════════════════════════════════════════════════════════════
+       HVAD GØR DENNE FIL?
+       ----------------------------------------------------------------
+       På forsiden er der en spørgsmålskasse. Den viser ét "skærmbillede"
+       ad gangen: først en intro, så nogle sider med tekstfelter, en side
+       med valgmuligheder man kan klikke på, og til sidst en tak-besked.
+
+       Idéen: i stedet for at skrive al HTML'en i hånden, ligger alle
+       spørgsmål i listen 'alleSpoergsmaal' nedenfor. Et sæt funktioner
+       laver så HTML'en automatisk ud fra listen, og en tæller holder styr
+       på hvilket spørgsmål man er nået til. Trykker man "Næste", tæller
+       den én op og viser det næste.
+
+       Hvert spørgsmål har en "type", der bestemmer hvordan det vises:
+         "intro"   = velkomsttekst + Start-knap
+         "felter"  = et eller flere tekstfelter man skriver i
+         "multi"   = knapper man kan vælge imellem + et fritekstfelt
+       ════════════════════════════════════════════════════════════════ */
+
+    // Listen over alle spørgsmål. Rækkefølgen = den rækkefølge de vises i.
     const alleSpoergsmaal = [
       {
+        // Skærm 0: introen.
         type: "intro",
         tekst: "Kære mor,\n\nDu er ikke alene. Mange unge mødre oplever de samme tanker, følelser og udfordringer som dig.\n\nSvar på spørgsmålene nedenfor, og se, hvordan andre unge mødre har det. Måske finder du nogen, du kan spejle dig i – og opdager, at der er et fællesskab af stærke mødre, som forstår, hvad du går igennem."
       },
       {
+        // En side med tekstfelter. visAnonymKnap: true tilføjer en ekstra "Svar anonymt"-knap.
         type: "felter",
-        visAnonymKnap: true,
-        felter: [
+        visAnonymKnap: true,                                       // vis to knapper i stedet for én
+        felter: [                                                  // hvert objekt her = ét inputfelt
           { label: "Hvad vil du gerne kaldes?", placeholder: "Fortrukket kaldenavn..." },
           { label: "Hvor gammel er du?",         placeholder: "Alder..." }
         ]
@@ -98,11 +128,12 @@ import '../styles/global.css';
         ]
       },
       {
+        // En side med klikbare svarknapper + et fritekstfelt nederst.
         type: "multi",
-        spoergsmaal: "Hvad håber du at få ud af fællesskabet? (Du kan vælge flere svar)",
-        valgmuligheder: ["Venskaber", "Råd og støtte", "Events og aktiviteter"],
-        fritekstLabel: "Andet? skriv dit svar her:",
-        fritekstPlaceholder: "skriv her..."
+        spoergsmaal: "Hvad håber du at få ud af fællesskabet? (Du kan vælge flere svar)", // selve spørgsmålet
+        valgmuligheder: ["Venskaber", "Råd og støtte", "Events og aktiviteter"],          // bliver til klikbare knapper
+        fritekstLabel: "Andet? skriv dit svar her:",                                      // tekst over fritekstfeltet
+        fritekstPlaceholder: "skriv her..."                                               // grå hjælpetekst i feltet
       },
       {
         type: "felter",
@@ -115,19 +146,28 @@ import '../styles/global.css';
       }
     ];
 
-    // Holder styr på hvilket spørgsmål vi er på
+    // En tæller der husker hvilket spørgsmål vi er nået til (0 = introen).
+    // 'let' (ikke 'const'), fordi tallet skal kunne ændres når man går videre.
     let aktivtSpoergsmaalIndex = 0;
 
-    // ── Laver HTML for ét inputfelt (lille eller stort) ──
+    /* ----------------------------------------------------------------
+       Funktionerne herunder LAVER hver et stykke HTML som tekst og
+       returnerer det. De viser ikke noget selv – det gør visSpoergsmaal
+       længere nede, ved at skrive teksten ind på siden.
+       ---------------------------------------------------------------- */
+
+    // Laver HTML for ÉT inputfelt. Hvis feltet har storTekstboks: true,
+    // bliver det et stort flerlinjet felt (<textarea>); ellers et alm. <input>.
    function lavInputFelt(felt) {
-  const labelHTML = `<p class="spoergsmaal-label">${felt.label}</p>`;
+  const labelHTML = `<p class="spoergsmaal-label">${felt.label}</p>`;   // overskriften over feltet
   if (felt.storTekstboks) {
-    return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`;
+    return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`; // stort felt
   }
-  return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;
+  return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;       // lille felt
 }
 
-    // ── Viser intro-siden med velkomsttekst og Start-knap ──
+    // Laver HTML for intro-skærmen: et billede, velkomstteksten og en Start-knap.
+    // Start-knappen kalder naeste(), som går videre til næste spørgsmål.
     function visIntro(spoergsmaal) {
       return `
         <img src="/Billeder/HÅND.svg" alt="" class="intro-billede" />
@@ -136,14 +176,15 @@ import '../styles/global.css';
       `;
     }
 
-    // ── Viser en side med tekstfelter man kan skrive i ──
+    // Laver HTML for en side med tekstfelter.
     function visFelter(spoergsmaal) {
-      let felterHTML = '';
+      let felterHTML = '';                          // her samler vi felternes HTML
+      // Gå igennem alle felter og læg hvert felts HTML i forlængelse (+=) af de forrige.
       spoergsmaal.felter.forEach(felt => {
         felterHTML += lavInputFelt(felt);
       });
 
-      // Vis to knapper hvis siden har "svar anonymt"-valget
+      // Hvis siden har "svar anonymt"-valget, viser vi to knapper i stedet for én.
       if (spoergsmaal.visAnonymKnap) {
         return `
           ${felterHTML}
@@ -154,21 +195,28 @@ import '../styles/global.css';
         `;
       }
 
+      // Ellers bare felterne og én Næste-knap.
       return `
         ${felterHTML}
         <button onclick="naeste()" class="knap knap-fuld-bredde">Næste</button>
       `;
     }
 
-    // ── Viser en side med klikbare svarmuligheder ──
+    // Laver HTML for en "multi"-side: klikbare svarknapper + et fritekstfelt nederst.
+    // erSidsteSpoergsmaal fortæller om den sidste knap skal hedde "Færdig" eller "Næste".
     function visMulti(spoergsmaal, erSidsteSpoergsmaal) {
-      let svarHTML = '';
+      let svarHTML = '';                              // her samler vi svarknappernes HTML
+      // Lav én svarknap for hver valgmulighed. onclick="toggleSvar(this)" betyder:
+      // "når man klikker, så kald toggleSvar med netop DENNE knap (this)".
       spoergsmaal.valgmuligheder.forEach(valgmulighed => {
         svarHTML += `<button onclick="toggleSvar(this)" class="svar-knap">${valgmulighed}</button>`;
       });
 
+      // En kort if/else på én linje (betingelse ? hvis-sandt : hvis-falsk):
+      // er det sidste spørgsmål? -> teksten bliver 'Færdig', ellers 'Næste'.
       const naestKnapTekst = erSidsteSpoergsmaal ? 'Færdig' : 'Næste';
 
+      // Sæt det hele sammen: spørgsmålstekst, svarknapperne, fritekstfelt og knappen.
       return `
         <p class="spoergsmaal-tekst">${spoergsmaal.spoergsmaal}</p>
         <div class="svar-liste">${svarHTML}</div>
@@ -178,45 +226,64 @@ import '../styles/global.css';
       `;
     }
 
-    // ── Viser det rigtige spørgsmål baseret på index ──
-    function visSpoergsmaal(index) {
-      const aktivtSpoergsmaal = alleSpoergsmaal[index];
-      const kasseBeholder = document.getElementById('spoergsmaal-indhold');
-      const erSidsteSpoergsmaal = index === alleSpoergsmaal.length - 1;
+    /* ----------------------------------------------------------------
+       visSpoergsmaal: VISER spørgsmålet med nummeret 'spoergsmaalIndex'.
+       Den vælger den rigtige lav-HTML-funktion ud fra spørgsmålets "type"
+       og skriver så det færdige HTML ind på siden.
+       ---------------------------------------------------------------- */
+    function visSpoergsmaal(spoergsmaalIndex) {
+      const aktivtSpoergsmaal = alleSpoergsmaal[spoergsmaalIndex];                  // hent det rigtige spørgsmål fra listen
+      const spoergsmaalContainer = document.getElementById('spoergsmaal-indhold'); // boksen vi skriver ind i
+      // Er vi på det sidste spørgsmål? (length-1, fordi tælling starter ved 0)
+      const erSidsteSpoergsmaal = spoergsmaalIndex === alleSpoergsmaal.length - 1;
 
-      // Vis fremgangsindikator på alle sider undtagen introen
-      let html = '';
-      if (index > 0) {
-        html += `<p class="spoergsmaal-taeller">Spørgsmål ${index} / ${alleSpoergsmaal.length - 1}</p>`;
+      let samletHTML = '';                              // her bygges sidens HTML op
+      // Vis en tæller ("Spørgsmål 1 / 4") på alle sider undtagen introen (index 0).
+      if (spoergsmaalIndex > 0) {
+        samletHTML += `<p class="spoergsmaal-taeller">Spørgsmål ${spoergsmaalIndex} / ${alleSpoergsmaal.length - 1}</p>`;
       }
 
+      // Vælg den rigtige lav-HTML-funktion ud fra typen. (=== betyder "er præcis lig med")
       if (aktivtSpoergsmaal.type === 'intro') {
-        html += visIntro(aktivtSpoergsmaal);
+        samletHTML += visIntro(aktivtSpoergsmaal);
       } else if (aktivtSpoergsmaal.type === 'felter') {
-        html += visFelter(aktivtSpoergsmaal);
+        samletHTML += visFelter(aktivtSpoergsmaal);
       } else if (aktivtSpoergsmaal.type === 'multi') {
-        html += visMulti(aktivtSpoergsmaal, erSidsteSpoergsmaal);
+        samletHTML += visMulti(aktivtSpoergsmaal, erSidsteSpoergsmaal);
       }
 
-      kasseBeholder.innerHTML = html;
+      // Skriv den færdige HTML ind i boksen. innerHTML erstatter alt det forrige,
+      // så det gamle spørgsmål forsvinder og det nye vises i stedet.
+      spoergsmaalContainer.innerHTML = samletHTML;
     }
 
-    // ── Skifter farve på en svarknap når man klikker på den ──
+    /* ----------------------------------------------------------------
+       toggleSvar: kaldes når man klikker på en svarknap (fra visMulti).
+       Den slår knappens "valgt"-tilstand til og fra ved hvert klik.
+       klikketKnap = selve knappen man klikkede på (sendt med som 'this').
+       ---------------------------------------------------------------- */
     function toggleSvar(klikketKnap) {
-      if (klikketKnap.dataset.valgt) {
-        klikketKnap.classList.remove('svar-knap-valgt');
-        delete klikketKnap.dataset.valgt;
-      } else {
-        klikketKnap.classList.add('svar-knap-valgt');
-        klikketKnap.dataset.valgt = 'true';
+      // dataset.valgt er et lille usynligt mærke (data-valgt) vi selv sætter på knappen,
+      // så vi kan huske om den allerede er valgt eller ej.
+      if (klikketKnap.dataset.valgt) {                    // er den allerede valgt?
+        klikketKnap.classList.remove('svar-knap-valgt');  // -> fjern den grønne markering
+        delete klikketKnap.dataset.valgt;                 // -> og fjern mærket igen
+      } else {                                            // ellers (ikke valgt endnu):
+        klikketKnap.classList.add('svar-knap-valgt');     // -> sæt grøn markering på
+        klikketKnap.dataset.valgt = 'true';               // -> og sæt mærket
       }
     }
 
-    // ── Går til næste spørgsmål, eller viser tak-besked til sidst ──
+    /* ----------------------------------------------------------------
+       naeste: kaldes af "Start"/"Næste"/"Færdig"-knapperne.
+       Er vi på sidste spørgsmål  -> vis en tak-besked.
+       Ellers                     -> tæl én op og vis næste spørgsmål.
+       ---------------------------------------------------------------- */
     function naeste() {
       const erSidsteSpoergsmaal = aktivtSpoergsmaalIndex === alleSpoergsmaal.length - 1;
 
       if (erSidsteSpoergsmaal) {
+        // Sidste skærm: erstat indholdet med en tak-besked + en knap videre til datavisualiseringen.
         document.getElementById('spoergsmaal-indhold').innerHTML = `
           <p class="tak-tekst">Tak for din deltagelse!</p>
           <p style="font-size: clamp(0.9rem, 2vw, 1.1rem); line-height: 1.8; color: #353635; margin-bottom: 1.5rem;">
@@ -226,8 +293,8 @@ import '../styles/global.css';
           <button onclick="window.location.href='/datavisualisering'" class="knap knap-fuld-bredde">Se datavisualiseringen</button>
         `;
       } else {
-        aktivtSpoergsmaalIndex++;
-        visSpoergsmaal(aktivtSpoergsmaalIndex);
+        aktivtSpoergsmaalIndex++;                 // ++ lægger 1 til tælleren (gå ét spørgsmål frem)
+        visSpoergsmaal(aktivtSpoergsmaalIndex);    // og vis så det nye spørgsmål
       }
     }
 
@@ -241,15 +308,17 @@ import '../styles/global.css';
 
   </script>
 
-    <!-- Nyhedsbrev sektion -->
+    <!-- Nyhedsbrev sektion.
+         flex-col md:flex-row = stablet lodret på mobil, men side-om-side fra skærmbredde ≥768px (md:).
+         gap-12 = afstand mellem billede og formular. -->
 <div class="w-full bg-[#ccbddd] px-[10%] py-16 flex flex-col md:flex-row items-center gap-12">
   
-  <!-- Billede til venstre -->
+  <!-- Billede til venstre. flex-1 = del den ledige bredde ligeligt med formularen -->
   <div class="flex-1 flex justify-center">
     <img src="/Billeder/hvidBoblerheadspace.svg" alt="Nyhedsbrev" style="max-width: 18rem; width: 100%;" />
   </div>
 
-  <!-- Formular til højre -->
+  <!-- Formular til højre (flex-1 = den anden halvdel af bredden) -->
   <div class="flex-1">
     <h2 class="font-bold mb-4" style="font-size: clamp(1.5rem, 4vw, 2.5rem); text-transform: uppercase; color: #78ba53; font-style: italic;">
       NYHEDSBREV
@@ -267,6 +336,7 @@ import '../styles/global.css';
     <p class="felt-label">Efternavn</p>
     <input type="text" class="felt-input" />
 
+    <!-- type="email" giver @-tastatur på mobil + simpel format-tjek af browseren -->
     <p class="felt-label">E-mail</p>
     <input type="email" class="felt-input" />
 
