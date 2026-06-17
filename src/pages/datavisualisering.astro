@@ -78,24 +78,24 @@ import '../styles/global.css';
   <script is:inline>
 
     const kategorier = [
-   {
-  type: "sutter",
-  tekst: "201 mødre har svaret det samme som dig de seneste 4 måneder:",
-  antal: 64,
-  svg: '/Billeder/Mortilmorlogo.svg'
-},
-{
-  type: "sutter",
-  tekst: "124 mødre matcher din og dit barns alder de seneste 4 måneder:",
-  antal: 236,
-  svg: '/Billeder/sut.svg'
-},
-{
-  type: "sutter",
-  tekst: "143 mødre har følt sig ensomme i hverdagen de seneste 4 måneder:",
-  antal: 202,
-  svg: '/Billeder/sky.svg'
-},
+      {
+        type: "sutter",
+        tekst: "63 mødre har svaret det samme som dig de seneste 4 måneder:",
+        antal: 63,
+        svg: '/Billeder/Mortilmorlogo.svg'
+      },
+      {
+        type: "sutter",
+        tekst: "96 mødre matcher din og dit barns alder de seneste 4 måneder:",
+        antal:96,
+        svg: '/Billeder/sut.svg'
+      },
+      {
+        type: "sutter",
+        tekst: "143 mødre har følt sig ensomme i hverdagen de seneste 4 måneder:",
+        antal: 243,
+        svg: '/Billeder/sky.svg'
+      },
       {
         type: "kommentarer",
         tekst: "Hvad har andre mødre skrevet om:",
@@ -114,10 +114,10 @@ import '../styles/global.css';
     function skiftKategori(klikketKnap, kategoriIndex) {
 
       // Opdater knappernes udseende hvis klikket på
-   document.querySelectorAll('.kategori-række button').forEach(knap => {
-  knap.classList.remove('knap-aktiv');
-});
-klikketKnap.classList.add('knap-aktiv');
+      document.querySelectorAll('.kategori-række button').forEach(knap => {
+        knap.classList.remove('knap-aktiv');
+      });
+      klikketKnap.classList.add('knap-aktiv');
 
       // Opdater beskrivelsesteksten med grønt tal
       const valgtKategori = kategorier[kategoriIndex];
@@ -148,18 +148,17 @@ klikketKnap.classList.add('knap-aktiv');
           const landingsPosition = containerHoejde - sutBredde - (raekke * sutBredde);
 
           const sut = document.createElement('img');
-         sut.src = valgtKategori.svg;
+          sut.src = valgtKategori.svg;
           sut.className = 'sut';
           sut.style.left = vandretPosition + 'px';
           sut.style.setProperty('--lande-position', landingsPosition + 'px');
           sut.style.opacity = '0';
-       sut.style.transform = `rotate(${(Math.random() * 180) - 90}deg)`;
-      sut.style.animationDuration = (0.3 + Math.random() * 0.2) + 's';
-
-      sut.style.animationDelay = (sutNummer * 0.08) + 's';
-      sut.style.animationFillMode = 'forwards';
-      sut.style.animationName = 'faldNed';
-sut.style.animationTimingFunction = 'ease-in';
+          sut.style.transform = `rotate(${(Math.random() * 180) - 90}deg)`;
+          sut.style.animationDuration = (0.3 + Math.random() * 0.2) + 's';
+          sut.style.animationDelay = (sutNummer * 0.08) + 's';
+          sut.style.animationFillMode = 'forwards';
+          sut.style.animationName = 'faldNed';
+          sut.style.animationTimingFunction = 'ease-in';
           container.appendChild(sut);
         }
         

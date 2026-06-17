@@ -158,13 +158,13 @@ import '../styles/global.css';
 
     // Laver HTML for ÉT inputfelt. Hvis feltet har storTekstboks: true,
     // bliver det et stort flerlinjet felt (<textarea>); ellers et alm. <input>.
-   function lavInputFelt(felt) {
-  const labelHTML = `<p class="spoergsmaal-label">${felt.label}</p>`;   // overskriften over feltet
-  if (felt.storTekstboks) {
-    return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`; // stort felt
-  }
-  return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;       // lille felt
-}
+    function lavInputFelt(felt) {
+      const labelHTML = `<p class="spoergsmaal-label">${felt.label}</p>`;   // overskriften over feltet
+      if (felt.storTekstboks) {
+        return `${labelHTML}<textarea class="felt-textarea" placeholder="${felt.placeholder}"></textarea>`; // ${felt.placeholder} indsætter den grå hjælpetekst.
+      }
+      return `${labelHTML}<input type="text" class="felt-input" placeholder="${felt.placeholder}" />`;       // lille felt
+    }
 
     // Laver HTML for intro-skærmen: et billede, velkomstteksten og en Start-knap.
     // Start-knappen kalder naeste(), som går videre til næste spørgsmål.
@@ -173,15 +173,15 @@ import '../styles/global.css';
         <img src="/Billeder/HÅND.svg" alt="" class="intro-billede" />
         <p class="intro-tekst">${spoergsmaal.tekst}</p>
         <button onclick="naeste()" class="knap knap-fuld-bredde">Start</button>
-      `;
+      `; //onclick="naeste() Det er den der sender brugeren videre til næste skærm.
     }
 
     // Laver HTML for en side med tekstfelter.
     function visFelter(spoergsmaal) {
-      let felterHTML = '';                          // her samler vi felternes HTML
+      let felterHTML = '';                          // her samler vi felternes HTML. Den starter tom
       // Gå igennem alle felter og læg hvert felts HTML i forlængelse (+=) af de forrige.
-      spoergsmaal.felter.forEach(felt => {
-        felterHTML += lavInputFelt(felt);
+      spoergsmaal.felter.forEach(felt => { //.forEach(...) er en løkke der går igennem alle elementer i listen 'felter'
+        felterHTML += lavInputFelt(felt); // felt => er en arrow function, der siger "for hvert element i listen, kald det 'felt' og gør følgende: lav HTML for det og læg det til i felterHTML"
       });
 
       // Hvis siden har "svar anonymt"-valget, viser vi to knapper i stedet for én.
@@ -206,15 +206,14 @@ import '../styles/global.css';
     // erSidsteSpoergsmaal fortæller om den sidste knap skal hedde "Færdig" eller "Næste".
     function visMulti(spoergsmaal, erSidsteSpoergsmaal) {
       let svarHTML = '';                              // her samler vi svarknappernes HTML
-      // Lav én svarknap for hver valgmulighed. onclick="toggleSvar(this)" betyder:
-      // "når man klikker, så kald toggleSvar med netop DENNE knap (this)".
+      // Lav én svarknap for hver valgmulighed. onclick="toggleSvar(this)" betyder: når man klikker, så kald toggleSvar med netop DENNE knap (this).
       spoergsmaal.valgmuligheder.forEach(valgmulighed => {
         svarHTML += `<button onclick="toggleSvar(this)" class="svar-knap">${valgmulighed}</button>`;
       });
 
       // En kort if/else på én linje (betingelse ? hvis-sandt : hvis-falsk):
       // er det sidste spørgsmål? -> teksten bliver 'Færdig', ellers 'Næste'.
-      const naestKnapTekst = erSidsteSpoergsmaal ? 'Færdig' : 'Næste';
+      const naestKnapTekst = erSidsteSpoergsmaal ? 'Færdig' : 'Næste'; //erSidsteSpoergsmaal er en if/else-værdi
 
       // Sæt det hele sammen: spørgsmålstekst, svarknapperne, fritekstfelt og knappen.
       return `
@@ -231,11 +230,11 @@ import '../styles/global.css';
        Den vælger den rigtige lav-HTML-funktion ud fra spørgsmålets "type"
        og skriver så det færdige HTML ind på siden.
        ---------------------------------------------------------------- */
-    function visSpoergsmaal(spoergsmaalIndex) {
+    function visSpoergsmaal(spoergsmaalIndex) { //function visSpoergsmaal(spoergsmaalIndex) {
       const aktivtSpoergsmaal = alleSpoergsmaal[spoergsmaalIndex];                  // hent det rigtige spørgsmål fra listen
       const spoergsmaalContainer = document.getElementById('spoergsmaal-indhold'); // boksen vi skriver ind i
       // Er vi på det sidste spørgsmål? (length-1, fordi tælling starter ved 0)
-      const erSidsteSpoergsmaal = spoergsmaalIndex === alleSpoergsmaal.length - 1;
+      const erSidsteSpoergsmaal = spoergsmaalIndex === alleSpoergsmaal.length - 1; //Det her er en sand/falsk-test (en boolean)
 
       let samletHTML = '';                              // her bygges sidens HTML op
       // Vis en tæller ("Spørgsmål 1 / 4") på alle sider undtagen introen (index 0).
@@ -262,7 +261,7 @@ import '../styles/global.css';
        Den slår knappens "valgt"-tilstand til og fra ved hvert klik.
        klikketKnap = selve knappen man klikkede på (sendt med som 'this').
        ---------------------------------------------------------------- */
-    function toggleSvar(klikketKnap) {
+    function toggleSvar(klikketKnap) { 
       // dataset.valgt er et lille usynligt mærke (data-valgt) vi selv sætter på knappen,
       // så vi kan huske om den allerede er valgt eller ej.
       if (klikketKnap.dataset.valgt) {                    // er den allerede valgt?

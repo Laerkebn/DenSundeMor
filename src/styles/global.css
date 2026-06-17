@@ -2,25 +2,20 @@
 
 /* ════════════════════════════════════════
    SKRIFTTYPE
-   ----------------------------------------
-   @font-face = "registrer en skrifttype fra en fil, så jeg kan bruge den".
-   Bemærk: de to første har SAMME navn ("Agrandir") men hver sin font-weight.
-   Det lader browseren selv vælge den rigtige fil alt efter om teksten er
-   normal (400) eller fed (700).
    ════════════════════════════════════════ */
 @font-face {
-  font-family: "Agrandir";                              /* navnet du bruger i CSS (font-family: "Agrandir") */
+  font-family: "Agrandir";                              
   src: url("/font/Agrandir-Regular.otf") format("opentype"); /* hvor filen ligger + filtypen (otf = opentype) */
-  font-weight: 400;                                     /* denne fil bruges når vægten er 400 (normal) */
+  font-weight: 400;                                     
 }
-
+ 
 @font-face {
-  font-family: "Agrandir";                              /* samme navn... */
+  font-family: "Agrandir";                              
   src: url("/font/Agrandir-TextBold.otf") format("opentype");
-  font-weight: 700;                                     /* ...men denne fil bruges når vægten er 700 (fed) */
+  font-weight: 700;                                     
 }
 @font-face {
-  font-family: 'Agrandir-GrandHeavy';                   /* en helt selvstændig skrift med eget navn */
+  font-family: 'Agrandir-GrandHeavy';                   
   src: url('/font/Agrandir-GrandHeavy.otf') format('opentype');
 }
 
@@ -53,15 +48,6 @@ body {
   padding: 0 2rem;              /* lidt luft i siderne (0 top/bund, 2rem venstre/højre) */
   z-index: 50;                  /* læg headeren OVER alt andet (højt tal = øverst i stakken) */
   box-sizing: border-box;       /* tæl padding MED i bredden, så de 2rem ikke gør headeren bredere end 100% */
-}
-
-/* ── Headspace-logoet i headeren (tekstversion – bruges hvis du ikke bruger SVG-logoet) ── */
-.header-logo {
-  font-family: "Nunito", sans-serif;
-  font-weight: 700;             /* fed */
-  font-size: 2rem;              /* stor tekst */
-  color: #78ba53;               /* Headspace-grøn */
-  margin: 0;                    /* fjern standardmargin */
 }
 
 /* ════════════════════════════════════════
@@ -98,20 +84,6 @@ body {
 
 .menu-link:hover {              /* :hover = når musen er over linket */
   color: #353635;               /* skift til mørkegrå */
-}
-
-/* ════════════════════════════════════════
-   VIDEO  (tekst oven på forsidevideoen)
-   ════════════════════════════════════════ */
-.video-titel {
-  font-size: clamp(1.5rem, 5vw, 3rem); /* clamp(min, ønsket, max): skalerer med skærmen men holdes mellem 1,5 og 3rem */
-}
-
-.video-undertitel {
-  font-size: clamp(0.85rem, 2vw, 1.25rem);
-  width: 80%;                   /* fyld 80% af bredden */
-  margin-left: auto;            /* auto venstre + auto højre = centrer blokken vandret */
-  margin-right: auto;
 }
 
 /* ════════════════════════════════════════
@@ -350,23 +322,6 @@ body {
   animation: faldNed linear forwards; /* kør animationen "faldNed". linear = jævn fart. forwards = bliv på slutbilledet */
 }
 
-/* ── Animationen der får en sut til at falde ned ──
-   NB: Denne @keyframes faldNed bliver OVERSKREVET af den anden version
-   længere nede i filen (CSS bruger den sidste med samme navn). */
-@keyframes faldNed {
-  from {                        /* startpunkt (0%) */
-    top: -4rem;                 /* start over boksen */
-    opacity: 0;                 /* helt usynlig */
-  }
-  10% {                         /* 10% inde i animationen */
-    opacity: 1;                 /* tonet helt frem */
-  }
-  to {                          /* slutpunkt (100%) */
-    top: var(--lande-position); /* land på den værdi JS satte via --lande-position */
-    opacity: 1;
-  }
-}
-
 /* ── Kommentarkort ── */
 .kommentar-kort {
   background: #f5f0fa;          /* svag lilla */
@@ -401,8 +356,8 @@ body {
   margin-left: auto;            /* kun venstre auto = skub knappen helt til HØJRE */
 }
 
-/* ── Animationen der RENT FAKTISK bruges (denne står sidst, så den vinder over den øverste faldNed) ──
-   Den er finere: suten falder, "rammer" lidt for langt ned, hopper let op,
+/* ── Animationen der får en sut til at falde ned ──
+   Suten falder, "rammer" lidt for langt ned, hopper let op,
    og lægger sig så på plads – et lille bounce-look. */
 @keyframes faldNed {
   from {
