@@ -1,0 +1,77 @@
+MOR TIL MOR – INSTRUKTION
+=========================
+
+Projektet er en Mobilapp bygget i Astro (med Tailwind CSS), lavet til unge
+mødre mellem 12 og 25 år. Den samler fællesskaber og gratis events og
+giver et indblik i, hvordan andre unge mødre har det.
+
+Appen består af tre sider, som man bl.a. kan skifte mellem via burger-menuen
+øverst til højre: Forside, Datavisualisering og Fælleskaber.
+
+
+SÅDAN KØRER DU LØSNINGEN
+------------------------
+
+Du skal have Node.js installeret (version 18 eller nyere).
+
+1. Pak zip-filen ud.
+
+2. Åbn en terminal i projektmappen
+
+3. Installer afhængigheder:
+       npm install
+
+4. Start projektet:
+       npm run dev
+
+5. Åbn adressen der vises i terminalen i en browser
+
+
+HVAD KAN MAN PÅ HVER SIDE?
+--------------------------
+
+FORSIDE
+- Øverst en baggrundsvideo med titlen "Mor til mor" og en knap, der
+  scroller ned til et spørgeskema.
+- Spørgeskemaet er interaktivt og vises ét trin ad gangen: en velkomst,
+  et par sider med spørgsmål (kaldenavn, alder, by, barnets alder m.m.),
+  en side hvor man kan vælge mellem flere svar ved at klikke, og til
+  sidst en tak-besked. Man kan vælge at svare anonymt.
+- En tæller ("Spørgsmål 1 / 4") viser, hvor langt man er nået.
+- Når man er færdig, leder en knap videre til datavisualiseringen.
+- Nederst er der info om tilbuddet og en nyhedsbrev-tilmelding.
+
+DATAVISUALISERING
+- Fire kategoriknapper øverst: "Ligesom dig", "Samme alder", "Ensomhed"
+  og "Fortællinger". Klik for at skifte mellem dem.
+- De tre første viser en animeret visualisering: et antal små ikoner
+  "falder" ned i boksen og illustrerer, hvor mange andre mødre der har
+  svaret det samme. Tallet fremhæves med grønt i teksten.
+- "Fortællinger" viser i stedet en liste af kommentar-kort, hvor andre
+  unge mødre fortæller om deres oplevelser. Listen kan scrolles.
+- Nederst en knap, der leder videre til fællesskabssiden.
+
+FÆLLESKABER
+- En liste af kommende begivenheder (caféture, babysvømning, workshops
+  m.m.) vist som kort med navn, tidspunkt og adresse.
+- Et kort over Danmark med en grøn markør for hver begivenhed. Klikker
+  man på en markør, åbnes en lille infoboks med detaljer om begivenheden.
+
+
+VIGTIGT: INTERNET
+-----------------
+Selve siderne kører lokalt, men ét element henter data udefra:
+
+- Kortet på fællesskabssiden bruger Mapbox GL JS, som hentes online.
+  Kortet vises derfor kun, når computeren har internetadgang.
+  Mapbox-nøglen er allerede indsat i koden, så der skal IKKE sættes
+  noget op for at det virker.
+
+Hvis kortet ikke kan vises (fx uden internet), er der vedlagt skærmdumps
+af Mapbox-delen samt en skærmoptagelse (.mp4), der viser løsningen i brug.
+
+
+LIVE VERSION
+------------
+Løsningen er også deployet og kan ses online på:
+https://mortilmor.netlify.app/
